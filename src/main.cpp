@@ -6,7 +6,7 @@
 #include <cassert>
 #include "lacze_do_gnuplota.hh"
 #include "Wektor3D.hh"
-//#include "MacierzRot3D.hh"
+#include "MacierzRot3D.hh"
 
 
 using namespace std;
@@ -16,6 +16,7 @@ const string kDroneFile("bryly/drone.dat");
 class Prostopadloscian{
     std::vector<Wektor3D> points;
     Wektor3D translation;
+    MacierzRot3D rotation;
     double angle;
 
 public:
@@ -24,6 +25,16 @@ public:
     void translate(const Wektor3D& change)
     {
         translation = translation + change;
+    }
+    void rotateZ(int kat)
+    {
+        MacierzRot3D mac;
+        mac.UstawRotZ_st(kat);
+        rotation = mac;
+        for (unsigned i = 0; i < points.size(); ++i)
+        {
+          points[i] = rotation * points[i];
+        }
     }
 };
 
@@ -75,11 +86,12 @@ int main()
   Lacze.DodajNazwePliku(kDroneFile.c_str(), PzG::RR_Ciagly, 1);
   Lacze.ZmienTrybRys(PzG::TR_3D);
 
-  Lacze.UstawZakresX(-40, 100);
+ /* Lacze.UstawZakresX(-40, 100);
   Lacze.UstawZakresY(-90, 90);
-  Lacze.UstawZakresZ(-80, 150);
+  Lacze.UstawZakresZ(-80, 150);*/
 
   Lacze.UstawRotacjeXZ(40, 60); // Tutaj ustawiany jest widok
+
 
   cuboid.rysuj(kDroneFile);
 
@@ -87,10 +99,16 @@ int main()
   cout << "Nacisnij ENTER, aby kontynuowac ... " << flush;
   cin >> noskipws >> c;
 
+  cuboid.rotateZ(40);
+  cuboid.rysuj(kDroneFile);
 
-  Wektor3D translation(50,50,50);
+  Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
+  cout << "Nacisnij ENTER, aby kontynuowac ... " << flush;
+  cin >> noskipws >> c;
 
-  cuboid.translate(translation);
+  Wektor3D change(50,50,50);
+
+  cuboid.translate(change);
   cuboid.rysuj(kDroneFile);
 
   Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku

@@ -6,16 +6,14 @@
 
 
 
-#define ROZM_MAC   3
-class MacierzRot3D: public SMacierz<double,ROZM_MAC> {
-  public:
-   MacierzRot3D() = default;
-   MacierzRot3D(const SMacierz<double,ROZM_MAC>& Mac):
-                         SMacierz<double,ROZM_MAC>(Mac) {}
-  
-   /*void UstawRotX_st(double  Ang_deg);
-   void UstawRotY_st(double  Ang_deg);
-   void UstawRotZ_st(double  Ang_deg);*/
+class MacierzRot3D: public SMacierz<double,3> {
+public:
+  MacierzRot3D() = default;
+  MacierzRot3D(const SMacierz<double, 3> &Mac) : SMacierz<double, 3>(Mac) {}
+
+  void UstawRotX_st(double Ang_deg);
+  void UstawRotY_st(double Ang_deg);
+  void UstawRotZ_st(double Ang_deg);
 };
 
 

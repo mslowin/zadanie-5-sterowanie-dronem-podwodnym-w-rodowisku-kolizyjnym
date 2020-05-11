@@ -20,6 +20,8 @@ class SMacierz {
     int size = SWymiar;
     SWektor<STyp,SWymiar>  operator[](unsigned int Ind) const {return _Tab[Ind];};
     SWektor<STyp,SWymiar> &operator[](unsigned int Ind)       {return _Tab[Ind];};
+    STyp  operator ()(unsigned int Wiersz, unsigned int Kolumna) const {return _Tab[Wiersz][Kolumna];}
+    STyp& operator ()(unsigned int Wiersz, unsigned int Kolumna)       { return _Tab[Wiersz][Kolumna]; }
     /*!
     *  metoda wypełniająca macierz zerami
     */
