@@ -1,15 +1,24 @@
 #include <iostream>
 #include <iomanip>
+#include <vector>
 #include "lacze_do_gnuplota.hh"
+#include "SWektor.hh"
+#include "SMacierz.hh"
 
 using namespace std;
+using Vector3D = SWektor<double, 3>;
+
+class Powierzchnia
+{
+  vector<Vector3D> punkty;
+};
 
 int main()
 {
   PzG::LaczeDoGNUPlota Lacze;
   char c;
 
-  Lacze.DodajNazwePliku("bryly/prostopadloscian1.dat");
+  //Lacze.DodajNazwePliku("bryly/prostopadloscian1.dat");
   Lacze.ZmienTrybRys(PzG::TR_3D);
   Lacze.Inicjalizuj(); // Tutaj startuje gnuplot.
 
