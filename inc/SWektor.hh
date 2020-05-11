@@ -4,6 +4,8 @@
 #include <iostream>
 #include <math.h>
 
+
+
 /*!
  *  Klasa modelująca wektor
  *  Tab[ROZMIAR] - tablica będąca wektorem o rozmiarze 1 x ROZMIAR
@@ -84,7 +86,7 @@ std::istream& operator >> (std::istream &in, SWektor<STyp,SWymiar> &Wek)
 {
     for(unsigned int i=0; i < SWymiar; ++i)
     {
-        std::cout << "Podaj " << i+1 << ". liczbę wektora" << std::endl;
+       // std::cout << "Podaj " << i+1 << ". liczbę wektora" << std::endl;
         in >> Wek[i];
     }
     return in;
@@ -102,6 +104,5 @@ std::ostream& operator << (std::ostream &out, const SWektor<STyp,SWymiar> &Wek)
     }
     return out;
 }
-
 
 #endif

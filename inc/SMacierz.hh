@@ -8,14 +8,14 @@
 
 /*!
  *  Klasa modelująca Macierz
- *  _Tab[ROZMIAR][ROZMIAR] - tablica będąca macierzą o rozmiarach ROZMIAR x ROZMIAR
+ *  _Tab[3][3] - tablica będąca macierzą o 3ach 3 x 3
  */
  /*template <class STyp>
 class SMacierz {
-    SWektor<STyp> macierz[ROZMIAR];*/
+    SWektor<STyp> macierz[3];*/
 template <typename STyp, int SWymiar>
 class SMacierz {
-    SWektor<STyp,SWymiar> _Tab[ROZMIAR];
+    SWektor<STyp,SWymiar> _Tab[3];
   public:
     int size = SWymiar;
     SWektor<STyp,SWymiar>  operator[](unsigned int Ind) const {return _Tab[Ind];};
@@ -26,9 +26,9 @@ class SMacierz {
     SMacierz()
     {
 
-        for (int i = 0; i < ROZMIAR; i++)
+        for (int i = 0; i < 3; i++)
         {
-            for (int j = 0; j < ROZMIAR; j++)
+            for (int j = 0; j < 3; j++)
             {
                 _Tab[i][j] = 0;
             }
@@ -84,13 +84,13 @@ STyp wyznacznik(SMacierz<STyp, SWymiar> &macierz)
 {
     SWektor<STyp, SWymiar> ab = SWektor<STyp, SWymiar>();
     int i = 0, j = 0, k = 0, n = 0;
-    for (k = 0; k < ROZMIAR; ++k)
+    for (k = 0; k < 3; ++k)
     {
-        for (i = 1 + k; i < ROZMIAR; ++i)
+        for (i = 1 + k; i < 3; ++i)
         {
-            for (j = ROZMIAR - 1; j >= 0 + k; --j)
+            for (j = 3 - 1; j >= 0 + k; --j)
             {
-                while (macierz[k][k] == 0 && n <= ROZMIAR - k)
+                while (macierz[k][k] == 0 && n <= 3 - k)
                 {
                     ab = macierz[k + n];
                     macierz[k + n] = macierz[k];
@@ -108,7 +108,7 @@ STyp wyznacznik(SMacierz<STyp, SWymiar> &macierz)
     }
     STyp a;
     a = 1;
-    for (int i = 0; i < ROZMIAR; i++)
+    for (int i = 0; i < 3; i++)
     {
         a = a * macierz[i][i];
     }
