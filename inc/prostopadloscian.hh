@@ -19,10 +19,22 @@ class Prostopadloscian{
 public:
     Prostopadloscian();
     void rysuj(std::string filename) const;
+
+    /**
+     * @brief przesuwa prostopadłościan o wektor
+     * 
+     * @param change wektor przesunięcia [x,y,z]
+     */
     void translate(const Wektor3D& change)
     {
         translation = translation + change;
     }
+
+    /**
+     * @brief obraca prostopadłościan według osi Z
+     * 
+     * @param kat kąt obrotu w stopniach
+     */
     void rotateZ(int kat)
     {
         MacierzRot3D mac;
@@ -37,6 +49,10 @@ public:
     }
 };
 
+/**
+ * @brief konstruuje nowy Prostopadloscian:: Prostopadloscian object
+ * 
+ */
 Prostopadloscian::Prostopadloscian(): angle{0}
 {
     ifstream inputFile;
@@ -56,6 +72,11 @@ Prostopadloscian::Prostopadloscian(): angle{0}
     inputFile.close();
 }
 
+/**
+ * @brief rysuje prostopadłościan do pliku
+ * 
+ * @param filename nazwa pliku w którym zapisuje
+ */
 void Prostopadloscian::rysuj(std::string filename) const
 {
     ofstream outputFile;

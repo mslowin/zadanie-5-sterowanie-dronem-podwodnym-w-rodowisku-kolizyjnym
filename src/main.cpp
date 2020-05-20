@@ -25,10 +25,10 @@ const string kDroneFile("bryly/drone.dat");
 
 int main()
 {
-  Prostopadloscian cuboid; // To tylko przykladowe definicje zmiennej
+  Prostopadloscian cuboid;      // dron 
   PzG::LaczeDoGNUPlota Lacze;
 
-  Lacze.Inicjalizuj(); // Tutaj startuje gnuplot.
+  Lacze.Inicjalizuj();          // Tutaj startuje gnuplot.
   Lacze.DodajNazwePliku(kDroneFile.c_str(), PzG::RR_Ciagly, 1);
   Lacze.ZmienTrybRys(PzG::TR_3D);
 
@@ -42,6 +42,7 @@ int main()
   cuboid.rysuj(kDroneFile);
 
   Lacze.DodajNazwePliku("bryly/pow_wody.dat");
+  //Lacze.DodajNazwePliku("bryly/ziemia.dat");
 
   Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
 
@@ -57,10 +58,12 @@ int main()
   cout << "#####################################\n";
 
   char wybor;           //wybor w menu
-  int a;                //kąt obrotu
-  int b;                //kąt opadania/wznoszenia
-  int odlegloscZ;       //odległość opadania/wznoszenia
-  int odlegloscX;       //odległość przesunięcia 
+  double a;                //kąt obrotu
+  double b;                //kąt opadania/wznoszenia
+  double c;
+  double odlegloscZ;       //odległość opadania/wznoszenia (zmienna z - wertykalna)
+  double odlegloscX;       //zmienna x odległośi przesunięcia 
+  double odlegloscR;       //odległość przesunięcia 
 
   do
   {
@@ -77,10 +80,12 @@ int main()
           cout << endl
                << "Podaj wartość odległości, na którą ma się przemiescić dron" << endl;
           cout << "Wartość odległości:   ";
-          cin >> odlegloscX;
+          cin >> odlegloscR;
           cout << endl;
 
-          odlegloscZ = odlegloscX * tan(b*M_PI/180);
+            
+            odlegloscZ = odlegloscR * sin((b*M_PI)/180);
+            odlegloscX = odlegloscR * cos((b*M_PI)/180);
 
           Wektor3D change(odlegloscX, 0, odlegloscZ);
 
