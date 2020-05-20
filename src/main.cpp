@@ -7,13 +7,20 @@
 #include "lacze_do_gnuplota.hh"
 #include "Wektor3D.hh"
 #include "MacierzRot3D.hh"
+#include "prostopadloscian.hh"
+
+//do time delay:
+#include <chrono>
+#include <thread>
 
 
 using namespace std;
-const std::string kModelCuboid("bryly/model.dat");
+using namespace std::this_thread;
+using namespace std::chrono;
+//const std::string kModelCuboid("bryly/model2.dat");
 const string kDroneFile("bryly/drone.dat");
 
-class Prostopadloscian{
+/*class Prostopadloscian{
     std::vector<Wektor3D> points;
     Wektor3D translation;
     MacierzRot3D rotation;
@@ -29,11 +36,13 @@ public:
     void rotateZ(int kat)
     {
         MacierzRot3D mac;
+        mac.UstawRotX_st(0);
+        mac.UstawRotY_st(0);
         mac.UstawRotZ_st(kat);
-        rotation = mac;
+        //rotation = mac;
         for (unsigned i = 0; i < points.size(); ++i)
         {
-          points[i] = rotation * points[i];
+          points[i] = mac * points[i];
         }
     }
 };
@@ -68,13 +77,16 @@ void Prostopadloscian::rysuj(std::string filename) const
     }
     for(unsigned i = 0; i < points.size(); ++i)
     {
+      
+      //sleep_until(system_clock::now() + seconds(1));
         outputFile << points[i] + translation << endl;
+        //sleep_for(nanoseconds(10000));
         if(i % 4 == 3) // triggers after every 4 points
         {
             outputFile << "#\n\n";
         }
     }
-}
+}*/
 
 int main()
 {
@@ -86,32 +98,53 @@ int main()
   Lacze.DodajNazwePliku(kDroneFile.c_str(), PzG::RR_Ciagly, 1);
   Lacze.ZmienTrybRys(PzG::TR_3D);
 
- /* Lacze.UstawZakresX(-40, 100);
-  Lacze.UstawZakresY(-90, 90);
-  Lacze.UstawZakresZ(-80, 150);*/
+  Lacze.UstawZakresX(-40, 100);
+  Lacze.UstawZakresY(-100, 100);
+  Lacze.UstawZakresZ(-100, 100);
 
-  Lacze.UstawRotacjeXZ(40, 60); // Tutaj ustawiany jest widok
-
+  //Lacze.UstawRotacjeXZ(40, 60); // Tutaj ustawiany jest widok
+  Lacze.UstawRotacjeXZ(76, 336); // Tutaj ustawiany jest widok
 
   cuboid.rysuj(kDroneFile);
+
+  Lacze.DodajNazwePliku("bryly/pow_wody.dat");
 
   Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
   cout << "Nacisnij ENTER, aby kontynuowac ... " << flush;
   cin >> noskipws >> c;
 
-  cuboid.rotateZ(40);
-  cuboid.rysuj(kDroneFile);
 
-  Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
+  /*for (int i = 0; i < 16; i++)
+  {
+      cuboid.rotateZ(90/16);
+      cuboid.rysuj(kDroneFile);
+      Lacze.Rysuj();
+      chrono::milliseconds timespan(50);
+      this_thread::sleep_for(timespan);
+  }*/
+
+      cuboid.rotateZ(45);
+      cuboid.rysuj(kDroneFile);
+      Lacze.Rysuj();
+
+
+  //Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
   cout << "Nacisnij ENTER, aby kontynuowac ... " << flush;
   cin >> noskipws >> c;
 
-  Wektor3D change(50,50,50);
 
-  cuboid.translate(change);
-  cuboid.rysuj(kDroneFile);
+  Wektor3D change(50, 0, 0);
 
-  Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
+  for (int i = 0; i < 20; i++)
+  {
+      cuboid.translate(change/20);
+      cuboid.rysuj(kDroneFile);
+      Lacze.Rysuj(); 
+      chrono::milliseconds timespan(50);
+      this_thread::sleep_for(timespan);
+  }
+
+  //Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
   cout << "Nacisnij ENTER, aby kontynuowac ... " << flush;
   cin >> noskipws >> c;
 }
