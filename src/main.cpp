@@ -27,14 +27,15 @@ int main()
 {
   Prostopadloscian cuboid;      // dron 
   PzG::LaczeDoGNUPlota Lacze;
+  Wektor3D wek_przesuniecia;   
 
   Lacze.Inicjalizuj();          // Tutaj startuje gnuplot.
   Lacze.DodajNazwePliku(kDroneFile.c_str(), PzG::RR_Ciagly, 1);
   Lacze.ZmienTrybRys(PzG::TR_3D);
 
-  Lacze.UstawZakresX(-40, 100);
+  Lacze.UstawZakresX(-100, 100);
   Lacze.UstawZakresY(-100, 100);
-  Lacze.UstawZakresZ(-100, 100);
+  Lacze.UstawZakresZ(-100, 150);
 
   //Lacze.UstawRotacjeXZ(40, 60); // Tutaj ustawiany jest widok
   Lacze.UstawRotacjeXZ(76, 336); // Tutaj ustawiany jest widok
@@ -42,7 +43,7 @@ int main()
   cuboid.rysuj(kDroneFile);
 
   Lacze.DodajNazwePliku("bryly/pow_wody.dat");
-  //Lacze.DodajNazwePliku("bryly/ziemia.dat");
+  Lacze.DodajNazwePliku("bryly/ziemia.dat");
 
   Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
 
@@ -60,7 +61,6 @@ int main()
   char wybor;           //wybor w menu
   double a;                //kąt obrotu
   double b;                //kąt opadania/wznoszenia
-  double c;
   double odlegloscZ;       //odległość opadania/wznoszenia (zmienna z - wertykalna)
   double odlegloscX;       //zmienna x odległośi przesunięcia 
   double odlegloscR;       //odległość przesunięcia 
@@ -82,12 +82,13 @@ int main()
           cout << "Wartość odległości:   ";
           cin >> odlegloscR;
           cout << endl;
-
             
-            odlegloscZ = odlegloscR * sin((b*M_PI)/180);
-            odlegloscX = odlegloscR * cos((b*M_PI)/180);
+          odlegloscZ = odlegloscR * sin((b*M_PI)/180);
+          odlegloscX = odlegloscR * cos((b*M_PI)/180);
 
           Wektor3D change(odlegloscX, 0, odlegloscZ);
+          //wek_przesuniecia = wek_przesuniecia + change;
+          //cuboid.getprzesuniecie() = wek_przesuniecia;
 
           for (int i = 0; i < 20; i++)
           {
@@ -104,17 +105,19 @@ int main()
           cout << "Podaj wartość kąta obrotu w stopniach" << endl;
           cout << "Wartość kąta:  ";
           cin >> a;
-          /*for (int i = 0; i < 16; i++)
+          a = a / 30;
+          cout << a << endl;
+          for (int i = 0; i < 30; i++)
           {
-              cuboid.rotateZ(90 / 16);
+              cuboid.rotateZ(a);
               cuboid.rysuj(kDroneFile);
               Lacze.Rysuj();
               chrono::milliseconds timespan(50);
               this_thread::sleep_for(timespan);
-          }*/
-          cuboid.rotateZ(a);
+          }
+          /*cuboid.rotateZ(a);
           cuboid.rysuj(kDroneFile);
-          Lacze.Rysuj();
+          Lacze.Rysuj();*/
           break;
       }
       case 'm':
