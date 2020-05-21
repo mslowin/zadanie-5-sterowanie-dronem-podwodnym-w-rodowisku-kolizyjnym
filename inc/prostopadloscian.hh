@@ -6,6 +6,7 @@
 #include "lacze_do_gnuplota.hh"
 
 #include <vector>
+#include <cmath>
 using namespace std;
 
 const std::string kModelCuboid("bryly/model2.dat");
@@ -23,6 +24,10 @@ public:
     Wektor3D &getprzesuniecie() { return translation; }
     Wektor3D getorientacja() const { return orientacja; }
     Wektor3D &getorientacja() { return orientacja; }
+
+    MacierzRot3D getrotation() const { return rotation; }
+    MacierzRot3D &getrotation() { return rotation; }
+
     void rysuj(std::string filename) const;
 
     /**
@@ -48,6 +53,7 @@ public:
     {
         orientacja = points[1] - points[0];
         orientacja = orientacja / 10;       //bok ma 10
+        orientacja[2] = 0;
     }
 
     /**
@@ -56,9 +62,26 @@ public:
      * @param change wektor przesunięcia [x,y,z]
      */
     void translate(const Wektor3D& change)
-    {
-        
+    {   
+
         translation = translation + change;
+    }
+
+    Wektor3D ruch(double poY, double poZ)
+    {
+        Wektor3D wek_ruchu;       //wektor ruchu, glowny wektor
+        Wektor3D osZ, osY;        //wektor pomocnik, wektor osi Z i XY
+        osZ[0] = 0;
+        osZ[1] = 0;
+        osZ[2] = 1;
+        cout << endl << orientacja << endl;
+        osY = orientacja;       //ustawienie doberj orientacji XY
+
+        osZ = osZ * poZ;       //aktualizacja osi Z , pomnozenie razy dlugosc wzniosu
+        osY = osY * poY;       //aktualizacja osi XY , pomnozenie razy dlugosc ruchu
+        wek_ruchu = osZ + osY; //skladowa osi Z i XY
+
+        return wek_ruchu;
     }
 
 
@@ -103,10 +126,7 @@ void Prostopadloscian::rysuj(std::string filename) const
     }
     for(unsigned i = 0; i < points.size(); ++i)
     {
-      
-      //sleep_until(system_clock::now() + seconds(1));
         outputFile << points[i] + translation << endl;
-        //sleep_for(nanoseconds(10000));
         if(i % 4 == 3) // triggers after every 4 points
         {
             outputFile << "#\n\n";

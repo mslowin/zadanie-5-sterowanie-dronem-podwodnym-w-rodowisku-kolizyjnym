@@ -45,6 +45,9 @@ int main()
   Lacze.DodajNazwePliku("bryly/pow_wody.dat");
   Lacze.DodajNazwePliku("bryly/ziemia.dat");
 
+  cuboid.zorientowanie();;
+
+
   Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
 
   cout << endl
@@ -58,11 +61,11 @@ int main()
   cout << "#   k - Zakoncz działanie programu  #\n"; /*koniec dzialania programu*/
   cout << "#####################################\n";
 
-  char wybor;           //wybor w menu
+  char wybor;              //wybor w menu
   double a;                //kąt obrotu
   double b;                //kąt opadania/wznoszenia
   double odlegloscZ;       //odległość opadania/wznoszenia (zmienna z - wertykalna)
-  double odlegloscX;       //zmienna x odległośi przesunięcia 
+  double odlegloscY;       //zmienna x odległośi przesunięcia 
   double odlegloscR;       //odległość przesunięcia 
 
   do
@@ -73,6 +76,7 @@ int main()
       {
       case 'r':
       {
+          Wektor3D wek_ruchu;
           cout << endl
                << "Podaj wartość kąta (wznoszenia/opadania) w stopniach" << endl;
           cout << "Wartość kąta:   ";
@@ -82,42 +86,36 @@ int main()
           cout << "Wartość odległości:   ";
           cin >> odlegloscR;
           cout << endl;
-            
-          odlegloscZ = odlegloscR * sin((b*M_PI)/180);
-          odlegloscX = odlegloscR * cos((b*M_PI)/180);
 
-          Wektor3D change(odlegloscX, 0, odlegloscZ);
-          //wek_przesuniecia = wek_przesuniecia + change;
-          //cuboid.getprzesuniecie() = wek_przesuniecia;
+          odlegloscZ = odlegloscR * sin((b*M_PI)/180);
+          odlegloscY = odlegloscR * cos((b*M_PI)/180);
+
+          wek_ruchu = cuboid.ruch(odlegloscY, odlegloscZ);
 
           for (int i = 0; i < 20; i++)
           {
-              cuboid.translate(change / 20);
+              cuboid.translate(wek_ruchu / 20);
               cuboid.rysuj(kDroneFile);
               Lacze.Rysuj();
               chrono::milliseconds timespan(50);
               this_thread::sleep_for(timespan);
           }
-          break;
+          break; 
       }
       case 'o':
       {
           cout << "Podaj wartość kąta obrotu w stopniach" << endl;
           cout << "Wartość kąta:  ";
           cin >> a;
-          a = a / 30;
-          cout << a << endl;
+          //a = a / 30;
           for (int i = 0; i < 30; i++)
           {
-              cuboid.rotateZ(a);
+              cuboid.rotateZ(a/30);
               cuboid.rysuj(kDroneFile);
               Lacze.Rysuj();
               chrono::milliseconds timespan(50);
               this_thread::sleep_for(timespan);
           }
-          /*cuboid.rotateZ(a);
-          cuboid.rysuj(kDroneFile);
-          Lacze.Rysuj();*/
           break;
       }
       case 'm':
