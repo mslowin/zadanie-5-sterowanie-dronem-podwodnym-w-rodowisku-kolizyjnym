@@ -74,7 +74,7 @@ public:
         osZ[0] = 0;
         osZ[1] = 0;
         osZ[2] = 1;
-        cout << endl << orientacja << endl;
+        //cout << endl << orientacja << endl;  //wyświetla wektor orientacji
         osY = orientacja;       //ustawienie doberj orientacji XY
 
         osZ = osZ * poZ;       //aktualizacja osi Z , pomnozenie razy dlugosc wzniosu

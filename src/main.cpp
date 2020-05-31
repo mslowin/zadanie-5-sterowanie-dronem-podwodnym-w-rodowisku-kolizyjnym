@@ -44,6 +44,8 @@ int main()
 
   Lacze.DodajNazwePliku("bryly/pow_wody.dat");
   Lacze.DodajNazwePliku("bryly/ziemia.dat");
+  Lacze.DodajNazwePliku("bryly/wirnik11.dat");   //prawy wirnik
+  Lacze.DodajNazwePliku("bryly/wirnik22.dat");   //lewy wirnik
 
   cuboid.zorientowanie();;
 
