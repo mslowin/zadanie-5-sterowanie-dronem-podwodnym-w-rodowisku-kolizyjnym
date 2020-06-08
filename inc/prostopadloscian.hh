@@ -4,13 +4,17 @@
 #include "Wektor3D.hh"
 #include "MacierzRot3D.hh"
 #include "lacze_do_gnuplota.hh"
+#include "SWektor.hh"
 
 #include <vector>
 #include <cmath>
 using namespace std;
 
 const std::string kModelCuboid("bryly/model2.dat");
+//const std::string kModelWirnik1("bryly/modelwirnik11.dat");
+//const std::string kModelWirnik2("bryly/modelwirnik22.dat");
 
+template <int rozmiar>
 class Prostopadloscian{
     std::vector<Wektor3D> points;
     Wektor3D translation;
@@ -19,7 +23,7 @@ class Prostopadloscian{
     double angle;
 
 public:
-    Prostopadloscian();
+    
     Wektor3D getprzesuniecie() const { return translation; }
     Wektor3D &getprzesuniecie() { return translation; }
     Wektor3D getorientacja() const { return orientacja; }
@@ -28,8 +32,65 @@ public:
     MacierzRot3D getrotation() const { return rotation; }
     MacierzRot3D &getrotation() { return rotation; }
 
-    void rysuj(std::string filename) const;
+    void rysuj(std::string filename) const
+    {
+        ofstream outputFile;
+        outputFile.open(filename);
+        if (!outputFile.is_open())
+        {
+            cerr << "Unable to open drone file!" << endl;
+            return;
+        }
+        for (unsigned i = 0; i < points.size(); ++i)
+        {
+            outputFile << points[i] + translation << endl;
+            if (i % 4 == 3) // triggers after every 4 points
+            {
+                outputFile << "#\n\n";
+            }
+        }
+    }
 
+    Prostopadloscian()
+    {
+        Wektor3D obiekt;
+        for (int i = 0; i < rozmiar; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                points.push_back(obiekt); //funkcja std::vector
+            }
+        }
+    }
+
+    //metoda sluzaca zapisowi wierzcholkow do pliku
+    void Importdopliku(string sciezka) //wpisuje sciezke
+    {
+        ofstream zapis(sciezka); //tworze plik
+        for (unsigned i = 0; i < rozmiar; i++)
+        {
+            for (unsigned j = 0; j < 3; j++)
+            {
+                zapis << points[i][j] << " "; //zapisuje w pliku
+            }
+            zapis << endl;
+        }
+        zapis.close(); //zamykam plik
+    }
+    //metoda sluzaca pobraniu wierzcholkow z pliku
+    void Eksportzpliku(string plik) //wpisuje sciezke
+    {
+        ifstream file;
+        file.open(plik.c_str()); //otwieram plik
+        for (unsigned i = 0; i < rozmiar; i++)
+        {
+            for (unsigned j = 0; j < 3; j++)
+            {
+                file >> points[i][j]; //zczytuje z pliku do programu
+            }
+        }
+    }
+    
     /**
      * @brief obraca prostopadłościan według osi Z
      * 
@@ -91,6 +152,7 @@ public:
  * @brief konstruuje nowy Prostopadloscian:: Prostopadloscian object
  * 
  */
+/*
 Prostopadloscian::Prostopadloscian(): angle{0}
 {
     ifstream inputFile;
@@ -108,14 +170,14 @@ Prostopadloscian::Prostopadloscian(): angle{0}
         points.push_back(point);
     }
     inputFile.close();
-}
+}*/
 
 /**
  * @brief rysuje prostopadłościan do pliku
  * 
  * @param filename nazwa pliku w którym zapisuje
  */
-void Prostopadloscian::rysuj(std::string filename) const
+/*void Prostopadloscian::rysuj(std::string filename) const
 {
     ofstream outputFile;
     outputFile.open(filename);
@@ -132,6 +194,6 @@ void Prostopadloscian::rysuj(std::string filename) const
             outputFile << "#\n\n";
         }
     }
-}
+}*/
 
 #endif

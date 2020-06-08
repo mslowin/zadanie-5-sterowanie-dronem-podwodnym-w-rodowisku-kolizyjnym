@@ -25,13 +25,20 @@ const string kDroneFile("bryly/drone.dat");
 
 int main()
 {
-  Prostopadloscian cuboid;      // dron 
+  Prostopadloscian<20> cuboid;      // dron 
   PzG::LaczeDoGNUPlota Lacze;
   Wektor3D wek_przesuniecia;   
 
   Lacze.Inicjalizuj();          // Tutaj startuje gnuplot.
-  Lacze.DodajNazwePliku(kDroneFile.c_str(), PzG::RR_Ciagly, 1);
+  
+  Lacze.DodajNazwePliku(kDroneFile.c_str(), PzG::RR_Ciagly, 1);    //dron 
   Lacze.ZmienTrybRys(PzG::TR_3D);
+
+  Lacze.DodajNazwePliku("bryly/pow_wody.dat");        //powierzchnia wody   
+  Lacze.DodajNazwePliku("bryly/ziemia.dat");          //powierzchnia ziemi
+  Lacze.DodajNazwePliku("bryly/wirnik11.dat");        //prawy wirnik
+  Lacze.DodajNazwePliku("bryly/wirnik22.dat");        //lewy wirnik
+
 
   Lacze.UstawZakresX(-100, 100);
   Lacze.UstawZakresY(-100, 100);
@@ -40,12 +47,9 @@ int main()
   //Lacze.UstawRotacjeXZ(40, 60); // Tutaj ustawiany jest widok
   Lacze.UstawRotacjeXZ(76, 336); // Tutaj ustawiany jest widok
 
+  cuboid.Eksportzpliku("bryly/model2.dat");
+  cuboid.Importdopliku(kDroneFile);
   cuboid.rysuj(kDroneFile);
-
-  Lacze.DodajNazwePliku("bryly/pow_wody.dat");
-  Lacze.DodajNazwePliku("bryly/ziemia.dat");
-  Lacze.DodajNazwePliku("bryly/wirnik11.dat");   //prawy wirnik
-  Lacze.DodajNazwePliku("bryly/wirnik22.dat");   //lewy wirnik
 
   cuboid.zorientowanie();;
 
