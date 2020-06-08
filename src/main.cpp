@@ -8,6 +8,8 @@
 #include "Wektor3D.hh"
 #include "MacierzRot3D.hh"
 #include "Bryla.hh"
+#include "Dron.hh"
+#include "Zakres.hh"
 
 //do time delay:
 #include <chrono>
@@ -26,6 +28,8 @@ const string kDroneFile("bryly/drone.dat");
 int main()
 {
   Bryla<20> cuboid;      // dron, jeszcze jako prostopadłościan bez wirników 
+  Bryla<33> wirnik1;
+
   PzG::LaczeDoGNUPlota Lacze;
   Wektor3D wek_przesuniecia;   
 
@@ -50,6 +54,10 @@ int main()
   cuboid.Eksportzpliku("bryly/model2.dat");
   cuboid.Importdopliku(kDroneFile);
   cuboid.rysuj(kDroneFile);
+
+  //wirnik1.Eksportzpliku("bryly/modelwirnik11.dat");
+  //wirnik1.Importdopliku("bryly/wirnik11.dat");
+  //wirnik1.rysuj("bryly/wirnik11.dat");
 
   cuboid.zorientowanie();;
 
@@ -102,6 +110,8 @@ int main()
           {
               cuboid.translate(wek_ruchu / 20);
               cuboid.rysuj(kDroneFile);
+              //wirnik1.translate(wek_ruchu / 20);
+              //wirnik1.rysuj("bryly/wirnik11.dat");
               Lacze.Rysuj();
               chrono::milliseconds timespan(50);
               this_thread::sleep_for(timespan);
@@ -118,6 +128,8 @@ int main()
           {
               cuboid.rotateZ(a/30);
               cuboid.rysuj(kDroneFile);
+              //wirnik1.rotateZ(a / 30);
+              //wirnik1.rysuj("bryly/wirnik11.dat");
               Lacze.Rysuj();
               chrono::milliseconds timespan(50);
               this_thread::sleep_for(timespan);

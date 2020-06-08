@@ -1,10 +1,17 @@
 #ifndef PROST_HH
 #define PROST_HH
 
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <string>
+#include <algorithm>
+#include <memory>
 #include "Wektor3D.hh"
 #include "MacierzRot3D.hh"
 #include "lacze_do_gnuplota.hh"
 #include "SWektor.hh"
+#include "Zakres.hh"
 
 #include <vector>
 #include <cmath>
@@ -23,14 +30,18 @@ class Bryla{
     double angle;
 
 public:
-    
+    Wektor3D operator[](int Ind) const { return points[Ind]; }
+    Wektor3D &operator[](int Ind) { return points[Ind]; }
+    vector<Wektor3D> getbryla() const { return points; }
+    vector<Wektor3D> &getbryla() { return points; }
     Wektor3D getprzesuniecie() const { return translation; }
     Wektor3D &getprzesuniecie() { return translation; }
     Wektor3D getorientacja() const { return orientacja; }
     Wektor3D &getorientacja() { return orientacja; }
-
     MacierzRot3D getrotation() const { return rotation; }
     MacierzRot3D &getrotation() { return rotation; }
+    double getkat() const { return angle; }
+    double &getkat() { return angle; }
 
     void rysuj(std::string filename) const
     {
@@ -54,6 +65,9 @@ public:
     Bryla()
     {
         Wektor3D obiekt;
+        obiekt[0] = 0;
+        obiekt[1] = 0;
+        obiekt[2] = 0;
         for (int i = 0; i < rozmiar; i++)
         {
             for (int j = 0; j < 3; j++)
@@ -90,7 +104,62 @@ public:
             }
         }
     }
-    
+
+    double mini(char tmp)
+    {
+        double a = 100;
+        if (tmp == 'X')
+        {
+            for (int i = 0; i < rozmiar; i++)
+            {
+                a = min(points[i][0], a);
+            }
+        }
+        if (tmp == 'Y')
+        {
+            for (int i = 0; i < rozmiar; i++)
+            {
+                a = min(points[i][1], a);
+            }
+        }
+
+        if (tmp == 'Z')
+        {
+            for (int i = 0; i < rozmiar; i++)
+            {
+                a = min(points[i][2], a);
+            }
+        }
+        return a;
+    }
+
+    double maxi(char tmp)
+    {
+        double a = -100;
+        if (tmp == 'X')
+        {
+            for (int i = 0; i < rozmiar; i++)
+            {
+                a = max(points[i][0], a);
+            }
+        }
+        if (tmp == 'Y')
+        {
+            for (int i = 0; i < rozmiar; i++)
+            {
+                a = max(points[i][1], a);
+            }
+        }
+        if (tmp == 'Z')
+        {
+            for (int i = 0; i < rozmiar; i++)
+            {
+                a = max(points[i][2], a);
+            }
+        }
+        return a;
+    }
+
     /**
      * @brief obraca prostopadłościan według osi Z
      * 
