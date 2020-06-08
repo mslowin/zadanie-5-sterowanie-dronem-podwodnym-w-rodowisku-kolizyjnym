@@ -7,7 +7,7 @@
 #include "lacze_do_gnuplota.hh"
 #include "Wektor3D.hh"
 #include "MacierzRot3D.hh"
-#include "prostopadloscian.hh"
+#include "Bryla.hh"
 
 //do time delay:
 #include <chrono>
@@ -25,7 +25,7 @@ const string kDroneFile("bryly/drone.dat");
 
 int main()
 {
-  Prostopadloscian<20> cuboid;      // dron 
+  Bryla<20> cuboid;      // dron, jeszcze jako prostopadłościan bez wirników 
   PzG::LaczeDoGNUPlota Lacze;
   Wektor3D wek_przesuniecia;   
 
