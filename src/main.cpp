@@ -27,8 +27,8 @@ const string kDroneFile("bryly/drone.dat");
 
 int main()
 {
-  Bryla<20> cuboid;      // dron, jeszcze jako prostopadłościan bez wirników 
-  Bryla<33> wirnik1;
+  //Bryla<20> cuboid;      // dron, jeszcze jako prostopadłościan bez wirników 
+  //Bryla<33> wirnik1;
   Dron<20, 33> dron = Dron<20, 33>();
 
   PzG::LaczeDoGNUPlota Lacze;
@@ -38,7 +38,6 @@ int main()
   
   Lacze.DodajNazwePliku(kDroneFile.c_str(), PzG::RR_Ciagly, 1);    //dron 
   Lacze.ZmienTrybRys(PzG::TR_3D);
-
   Lacze.DodajNazwePliku("bryly/pow_wody.dat");        //powierzchnia wody   
   Lacze.DodajNazwePliku("bryly/ziemia.dat");          //powierzchnia ziemi
   Lacze.DodajNazwePliku("bryly/wirnik11.dat");        //prawy wirnik
@@ -47,7 +46,7 @@ int main()
 
   Lacze.UstawZakresX(-100, 100);
   Lacze.UstawZakresY(-100, 100);
-  Lacze.UstawZakresZ(-100, 150);
+  Lacze.UstawZakresZ(-50, 100);
 
   //Lacze.UstawRotacjeXZ(40, 60); // Tutaj ustawiany jest widok
   Lacze.UstawRotacjeXZ(76, 336); // Tutaj ustawiany jest widok
@@ -65,6 +64,9 @@ int main()
   dron.getwirnik2().Eksportzpliku("bryly/modelwirnik22.dat");
   dron.getwirnik2().Importdopliku("bryly/wirnik22.dat");
   dron.getwirnik2().rysuj("bryly/wirnik22.dat");
+
+  //dron.getwirnik1().wyznaczenie_punktu_symetrii();
+  //dron.getwirnik2().wyznaczenie_punktu_symetrii();
 
   //wirnik1.Eksportzpliku("bryly/modelwirnik11.dat");
   //wirnik1.Importdopliku("bryly/wirnik11.dat");
@@ -107,6 +109,7 @@ int main()
                << "Podaj wartość kąta (wznoszenia/opadania) w stopniach" << endl;
           cout << "Wartość kąta:   ";
           cin >> b;
+          dron.getkat() = dron.getkat() + b;
           cout << endl
                << "Podaj wartość odległości, na którą ma się przemiescić dron" << endl;
           cout << "Wartość odległości:   ";
@@ -117,13 +120,25 @@ int main()
           odlegloscY = odlegloscR * cos((b*M_PI)/180);
 
           wek_ruchu = dron.getdron().ruch(odlegloscY, odlegloscZ);  //liczy się dobrze !
-          cout << wek_ruchu << endl;
+          cout << "wektor ruchu: " << wek_ruchu << endl;
+            //double kaat = dron.getkat();
+            //cout << "###" << kaat << endl;
 
-          for (int i = 0; i < 20; i++)
+          double radian = (3.14 * dron.getkat()) / (180);
+            cout << "radiany liczą się dobrze: " << radian << endl;
+
+          for (int i = 0; i < 200; i++)
           {
-              dron.getdron().translate(wek_ruchu / 20);
-              dron.getwirnik1().translate(wek_ruchu / 20);
-              dron.getwirnik2().translate(wek_ruchu / 20);
+              dron.getdron().translate(wek_ruchu / 200);
+
+              dron.getwirnik1().translate(wek_ruchu / 200);
+              dron.getwirnik1().wyznaczenie_punktu_symetrii();
+              dron.getwirnik1().obrotwir(radian);
+              
+              dron.getwirnik2().translate(wek_ruchu / 200);
+              dron.getwirnik2().wyznaczenie_punktu_symetrii();
+              dron.getwirnik2().obrotwir(radian);
+
               //dron.rysuj(kDroneFile);
               //dron.getdron().Importdopliku(kDroneFile); //importowanie nowych danych do pliku
               dron.getdron().rysuj(kDroneFile); //importowanie nowych danych do pliku
@@ -131,10 +146,8 @@ int main()
               dron.getwirnik2().rysuj("bryly/wirnik22.dat");
               //dron.getwirnik1().Importdopliku("bryly/wirnik11.dat");
               //dron.getwirnik2().Importdopliku("bryly/wirnik22.dat");
-              //wirnik1.translate(wek_ruchu / 20);
-              //wirnik1.rysuj("bryly/wirnik11.dat");
               Lacze.Rysuj();
-              chrono::milliseconds timespan(50);
+              chrono::milliseconds timespan(10);
               this_thread::sleep_for(timespan);
           }
           break; 

@@ -7,6 +7,7 @@
 #include <string>
 #include <algorithm>
 #include <memory>
+#include <cmath>
 #include "Wektor3D.hh"
 #include "MacierzRot3D.hh"
 #include "lacze_do_gnuplota.hh"
@@ -26,8 +27,10 @@ class Bryla{
     std::vector<Wektor3D> points;
     Wektor3D translation;
     Wektor3D orientacja;
-    MacierzRot3D rotation;
+    MacierzRot3D rotation;    
+    Wektor3D punktsymetrii;
     double angle;
+
 
 public:
     Wektor3D operator[](int Ind) const { return points[Ind]; }
@@ -52,7 +55,7 @@ public:
             cerr << "Unable to open drone file!" << endl;
             return;
         }
-        for (unsigned i = 0; i < points.size(); ++i)
+        for (unsigned i = 0; i < rozmiar /*points.size()*/; ++i)
         {
             outputFile << points[i] + translation << endl;
             if (i % 4 == 3) // triggers after every 4 points
@@ -103,6 +106,13 @@ public:
                 file >> points[i][j]; //zczytuje z pliku do programu
             }
         }
+    }
+
+    void zorientowanie()
+    {
+        orientacja = points[1] - points[0];
+        orientacja = orientacja / 10;       //bok ma 10
+        orientacja[2] = 0;
     }
 
     double mini(char tmp)
@@ -179,11 +189,110 @@ public:
         zorientowanie();
     }
 
-    void zorientowanie()
+    void rotateX(double kat)
     {
-        orientacja = points[1] - points[0];
-        orientacja = orientacja / 10;       //bok ma 10
-        orientacja[2] = 0;
+        MacierzRot3D mac;
+        mac.UstawRotX_st(kat);
+        mac.UstawRotY_st(0);
+        mac.UstawRotZ_st(0);
+        rotation = mac;
+        for (unsigned i = 0; i < points.size(); ++i)
+        {
+          points[i] = rotation * points[i];
+        }
+        zorientowanie();
+    }
+
+    void wyznaczenie_punktu_symetrii()
+    {
+        punktsymetrii[0] = (mini('X') + maxi('X')) / 2;
+        punktsymetrii[1] = (mini('Y') + maxi('Y')) / 2;
+        punktsymetrii[2] = (mini('Z') + maxi('Z')) / 2;
+        //cout << punktsymetrii[0] << " " << punktsymetrii[1] << " " << punktsymetrii[2] << endl; jest dobrze
+    }
+    SMacierz<double, 3> os_obrotuX(double radian)
+    {
+        /*MacierzRot3D mac;
+        mac.UstawRotX_st(radian);
+        mac.UstawRotY_st(0);
+        mac.UstawRotZ_st(0);
+        //mac = rotation;
+        for (unsigned i = 0; i < points.size(); ++i)
+        {
+          points[i] = mac * points[i];
+        }
+        return mac;*/
+
+        SMacierz<double, 3> pom;
+        pom[0][0] = 1;
+        pom[0][1] = 0;
+        pom[0][2] = 0;
+        pom[1][0] = 0;
+        pom[1][1] = cos(radian);
+        pom[1][2] = -1 * sin(radian);
+        pom[2][0] = 0;
+        pom[2][1] = sin(radian);
+        pom[2][2] = cos(radian);
+
+        return pom;
+    }
+    SMacierz<double, 3> os_obrotuY(double radian)
+    {
+        SMacierz<double, 3> pom;
+        pom[0][0] = cos(radian);
+        pom[1][1] = 1;
+        pom[0][2] = sin(radian);
+        pom[2][0] = -1 * sin(radian);
+        pom[2][2] = pom[0][0];
+
+        return pom;
+    }
+    SMacierz<double, 3> os_obrotuZ(double radian)
+    {
+        SMacierz<double, 3> pom;
+        pom[0][1] = -1 * sin(radian);
+        pom[1][0] = sin(radian);
+        pom[1][1] = cos(radian);
+        pom[0][0] = pom[1][1];
+        pom[2][2] = 1;
+
+        return pom;
+    }
+
+    void obrotwir(double radian)
+    {
+        //w tym miejscu dla kąta 0 jest 0 radianów
+        MacierzRot3D pom;
+        for (int i = 0; i < 3; i++)
+        {
+            punktsymetrii[i] = -1 * punktsymetrii[i]; //zmiana okrientacji wektora przesuniecia
+        }
+
+        translate(punktsymetrii); //powrot do (0,0,0)
+        pom = os_obrotuY(-1 * radian);
+        for (int i = 0; i < rozmiar; i++)
+        {
+            points[i] = pom * points[i]; //zmiana kata
+        }
+
+        pom = os_obrotuX(radian + 0.1);
+        for (int i = 0; i < rozmiar; i++)
+        {
+            points[i] = pom * points[i]; //zmiana kata
+        }
+        pom = os_obrotuZ(radian);
+        for (int i = 0; i < rozmiar; i++)
+        {
+            points[i] = pom * points[i]; //zmiana kata
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            punktsymetrii[i] = -1 * punktsymetrii[i]; //zmiana okrientacji wektora przesuniecia
+        }
+        translate(punktsymetrii); //powrot do wczesniejszej lokalizacji
+        // przesun(przesuniecie);
+        zorientowanie(); //aktualizacja orientacji
+        //cout << orientacja << endl;  chyba jest dobrze
     }
 
     /**
