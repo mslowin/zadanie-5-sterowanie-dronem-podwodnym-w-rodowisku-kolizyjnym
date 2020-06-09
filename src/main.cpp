@@ -25,7 +25,7 @@ using namespace std;
 
 using namespace std::this_thread;
 using namespace std::chrono;
-const string kDroneFile("bryly/drone.dat");
+//const string kDroneFile("bryly/drone.dat");
 
 int main()
 {
@@ -39,10 +39,6 @@ int main()
   Scena<20, 43, 25, 33> scena = Scena<20, 43, 25, 33>();             //inicjalizowanie sceny (dron, podloze, woda)
   Wektor3D wek_przesuniecia;   
 
-  
-  
-  
-  
   //###################
   /*
   Lacze.DodajNazwePliku(kDroneFile.c_str(), PzG::RR_Ciagly, 1);    //dron 
@@ -74,7 +70,7 @@ int main()
 
   scena.getdron().getdron().Eksportzpliku("bryly/model2.dat");
   scena.getdron().getdron().Importdopliku("bryly/drone.dat");
-  scena.getdron().getdron().rysuj(kDroneFile);
+  scena.getdron().getdron().rysuj("bryly/drone.dat");
   scena.getdron().getwirnik1().Eksportzpliku("bryly/modelwirnik11.dat");
   scena.getdron().getwirnik1().Importdopliku("bryly/wirnik11.dat");
   scena.getdron().getwirnik1().rysuj("bryly/wirnik11.dat");
@@ -94,10 +90,10 @@ int main()
   scena.getdron().getwirnik2().zorientowanie();
 
   scena.getdron().getwirnik1().wyznaczenie_punktu_symetrii();
+  scena.rysuj();
 
-  // WCZYTYWANIE PRZESZKÓD
+  // WCZYTYWANIE PRZESZKÓD ##################
       Przeszkoda<20> obiekt = Przeszkoda<20>();
-
       obiekt.tworzprzeszkode(80, 85, -90, 10, 0, 40);
       scena.getprzeszkoda().push_back(obiekt);
       scena.nazwa_przeszkody();
@@ -121,9 +117,10 @@ int main()
       scena.nazwa_przeszkody();
       scena.rysuj();
       cout << "\n\nprzeszkody zostaly wczytane" << endl;
+  //######################################## 
 
   //Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
-  scena.rysuj();
+  
 
   cout << endl
        << endl
@@ -172,6 +169,7 @@ int main()
 
           wek_ruchu = scena.getdron().getdron().ruch(odlegloscY, odlegloscZ);  //liczy się dobrze !
           cout << "wektor ruchu: " << wek_ruchu << endl;
+          //scena.getdron().getdron().getprzesuniecie() = scena.getdron().getdron().getprzesuniecie() + wek_ruchu;
             //double kaat = dron.getkat();
             //cout << "###" << kaat << endl;
 
@@ -192,7 +190,7 @@ int main()
               //dron.getwirnik2().wyznaczenie_punktu_symetrii();
               //dron.getwirnik2().obrotwir(radian);
 
-              scena.getdron().getdron().rysuj(kDroneFile); //importowanie nowych danych do pliku
+              scena.getdron().getdron().rysuj("bryly/drone.dat"); //importowanie nowych danych do pliku
               scena.getdron().getwirnik1().rysuj("bryly/wirnik11.dat"); 
               scena.getdron().getwirnik2().rysuj("bryly/wirnik22.dat");
 
@@ -200,8 +198,8 @@ int main()
               scena.rysuj();
 
               double czyblad;
-              czyblad = scena.czykolizja();             //TU COS NIE TAK BO OD RAZU PRZED RUCHEM WYKRYWA KOLIZJĘ
-              cout << "czy kolizja: " << czyblad << endl;
+              czyblad = scena.czykolizja();                  //TU COS NIE TAK BO OD RAZU PRZED RUCHEM WYKRYWA KOLIZJĘ I NIE POZWALA DRONOWI RUSZYĆ
+              cout << "czy kolizja: " << czyblad << endl;    //czyblad powinien być większy od 0 dopiero w momencie zetknięcia powierzchnik drona i przeszkody
               if (czyblad > 0)
               {
                   scena.co_sie_stalo(czyblad);
@@ -212,7 +210,8 @@ int main()
               }
               chrono::milliseconds timespan(10);
               this_thread::sleep_for(timespan);
-          }//if
+          }//for
+          cout << "Przesunięcie" << scena.getdron().getdron().getprzesuniecie() << endl;
           break; 
       }
       case 'o':
@@ -225,11 +224,21 @@ int main()
               scena.getdron().getdron().rotateZ(a / 30);
               scena.getdron().getwirnik1().rotateZ(a / 30);
               scena.getdron().getwirnik2().rotateZ(a / 30);
-              scena.getdron().getdron().rysuj(kDroneFile);
+              scena.getdron().getdron().rysuj("bryly/drone.dat");
               scena.getdron().getwirnik1().rysuj("bryly/wirnik11.dat");
               scena.getdron().getwirnik2().rysuj("bryly/wirnik22.dat");
               //Lacze.Rysuj();
               scena.rysuj();
+              /*int czyblad = 0;
+              czyblad = scena.czykolizja();
+              if (czyblad > 0)
+              {
+                  scena.getdron().getdron().popraw();
+                  scena.getdron().getwirnik1().popraw();
+                  scena.getdron().getwirnik2().popraw();
+                  scena.co_sie_stalo(czyblad);
+                  break;
+              }*/
               chrono::milliseconds timespan(50);
               this_thread::sleep_for(timespan);
           }
@@ -270,5 +279,5 @@ int main()
           break;
       }
       } /*switch*/
-  } while (true);
+  } while (true); /*do while*/
 }

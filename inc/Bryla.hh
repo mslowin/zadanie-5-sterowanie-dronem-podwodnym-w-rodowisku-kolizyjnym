@@ -7,7 +7,6 @@
 #include <string>
 #include <algorithm>
 #include <memory>
-#include <cmath>
 #include "Wektor3D.hh"
 #include "MacierzRot3D.hh"
 #include "lacze_do_gnuplota.hh"
@@ -322,7 +321,7 @@ public:
 
         return wek_ruchu;
     }
-    
+
     void popraw()
     {
         cout << "######" << endl;
