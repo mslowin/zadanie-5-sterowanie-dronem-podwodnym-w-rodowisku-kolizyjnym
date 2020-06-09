@@ -8,6 +8,7 @@
 #include "lacze_do_gnuplota.hh"
 #include "Bryla.hh"
 #include "Zakres.hh"
+#include "Przeszkoda.hh"
 
 #include <vector>
 #include <cmath>

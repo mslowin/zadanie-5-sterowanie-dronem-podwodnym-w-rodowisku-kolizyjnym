@@ -1,0 +1,86 @@
+#ifndef PRZESZKODA_HH
+#define PRZESZKODA_HH
+#include <iostream>
+#include <iomanip>
+#include "Bryla.hh"
+#include "Wektor3D.hh"
+#include "Zakres.hh"
+#include "lacze_do_gnuplota.hh"
+
+using namespace std;
+
+template<int rozmiar>
+class Przeszkoda : public Bryla<rozmiar>
+{
+    Bryla<rozmiar> przeszkoda;
+    vector<Wektor3D> wek_orient;
+    string nazwa;
+
+public:
+    Bryla<rozmiar> getprzeszkoda() const { return przeszkoda; }
+    Bryla<rozmiar> &getprzeszkoda() { return przeszkoda; }
+    vector<Wektor3D> getwek_orient() const { return wek_orient; }
+    vector<Wektor3D> &getwek_orient() { return wek_orient; }
+    string getnazwa() const { return nazwa; }
+    string &getnazwa() { return nazwa; }
+
+    Przeszkoda()
+    {
+        Wektor3D obiekt;
+        obiekt[0] = 0;
+        obiekt[1] = 0;
+        obiekt[2] = 0;
+        for (int i = 0; i < 21; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                przeszkoda.getbryla().push_back(obiekt); //funkcja std::vector
+            }
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            wek_orient.push_back(obiekt);
+        }
+    }
+    void tworzprzeszkode(float x1, float x2, float y1, float y2, float z1, float z2)
+    {
+        przeszkoda.getbryla()[0].wektorXYZ(x1, y1, z1);
+        // przeszkoda.getbryla()[1].wektorXYZ(x1, y1, z1);
+        przeszkoda.getbryla()[1].wektorXYZ(x2, y1, z1);
+        przeszkoda.getbryla()[2].wektorXYZ(x2, y2, z1);
+        przeszkoda.getbryla()[3].wektorXYZ(x1, y2, z1);
+        przeszkoda.getbryla()[4].wektorXYZ(x1, y1, z1);
+        przeszkoda.getbryla()[5].wektorXYZ(x1, y1, z2);
+        przeszkoda.getbryla()[6].wektorXYZ(x2, y1, z2);
+        przeszkoda.getbryla()[7].wektorXYZ(x2, y1, z1);
+        przeszkoda.getbryla()[8].wektorXYZ(x2, y1, z2);
+        przeszkoda.getbryla()[9].wektorXYZ(x2, y2, z2);
+        przeszkoda.getbryla()[10].wektorXYZ(x2, y2, z1);
+        przeszkoda.getbryla()[11].wektorXYZ(x2, y2, z2);
+        przeszkoda.getbryla()[12].wektorXYZ(x1, y2, z2);
+        przeszkoda.getbryla()[13].wektorXYZ(x1, y2, z1);
+        przeszkoda.getbryla()[14].wektorXYZ(x1, y2, z2);
+        przeszkoda.getbryla()[15].wektorXYZ(x1, y1, z2);
+        przeszkoda.getbryla()[16].wektorXYZ(x2, y1, z2);
+        przeszkoda.getbryla()[17].wektorXYZ(x2, y2, z1);
+        przeszkoda.getbryla()[18].wektorXYZ(x2, y2, z2);
+        przeszkoda.getbryla()[19].wektorXYZ(x2, y1, z1);
+
+        wek_orient[0] = x2 - x1;
+        wek_orient[1] = y2 - y1;
+        wek_orient[2] = z2 - z1;
+    }
+    virtual Zakres zakres()
+    {
+        Zakres tmp;
+        tmp.getx_min() = przeszkoda.mini('X');
+        tmp.getx_max() = przeszkoda.maxi('X');
+        tmp.gety_min() = przeszkoda.mini('Y');
+        tmp.gety_max() = przeszkoda.maxi('Y');
+        tmp.getz_min() = przeszkoda.mini('Z');
+        tmp.getz_max() = przeszkoda.maxi('Z');
+        return tmp;
+    }
+};
+
+#endif

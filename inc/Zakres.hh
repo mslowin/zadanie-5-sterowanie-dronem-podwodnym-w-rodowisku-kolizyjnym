@@ -6,6 +6,8 @@
 #include "Bryla.hh"
 #include "Wektor3D.hh"
 #include "lacze_do_gnuplota.hh"
+//#include "Przeszkoda.hh"
+
 using namespace std;
 
 class Zakres
