@@ -10,6 +10,7 @@
 #include "Przeszkoda.hh"
 #include "Dron.hh"
 #include "lacze_do_gnuplota.hh"
+#include "Powierzchnia.hh"
 
 template <int rozmiar1, int rozmiar2, int rozmiar3, int rozmiar4>
 class Scena : public Bryla<rozmiar1 || rozmiar2 || rozmiar3 || rozmiar4>

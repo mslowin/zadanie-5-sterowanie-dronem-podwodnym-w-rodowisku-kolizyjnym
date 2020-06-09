@@ -12,6 +12,7 @@
 #include "Zakres.hh"
 #include "Przeszkoda.hh"
 #include "scena.hh"
+#include "Powierzchnia.hh"
 
 //do time delay:
 #include <chrono>
