@@ -11,6 +11,7 @@
 #include "Dron.hh"
 #include "Zakres.hh"
 #include "Przeszkoda.hh"
+#include "scena.hh"
 
 //do time delay:
 #include <chrono>
@@ -34,19 +35,18 @@ int main()
 
   PzG::LaczeDoGNUPlota Lacze;
   Lacze.Inicjalizuj();          // Tutaj startuje gnuplot.
-  // SCENA
+  Scena<20, 43, 25, 33> scena = Scena<20, 43, 25, 33>();             //inicjalizowanie sceny (dron, podloze, woda)
   Wektor3D wek_przesuniecia;   
 
   
   
   //###################
-  
   Lacze.DodajNazwePliku(kDroneFile.c_str(), PzG::RR_Ciagly, 1);    //dron 
   Lacze.ZmienTrybRys(PzG::TR_3D);
-  Lacze.DodajNazwePliku("bryly/pow_wody.dat");        //powierzchnia wody   
-  Lacze.DodajNazwePliku("bryly/ziemia.dat");          //powierzchnia ziemi
-  Lacze.DodajNazwePliku("bryly/wirnik11.dat");        //prawy wirnik
-  Lacze.DodajNazwePliku("bryly/wirnik22.dat");        //lewy wirnik
+  //Lacze.DodajNazwePliku("bryly/pow_wody.dat");        //powierzchnia wody   
+  //Lacze.DodajNazwePliku("bryly/ziemia.dat");          //powierzchnia ziemi
+  //Lacze.DodajNazwePliku("bryly/wirnik11.dat");        //prawy wirnik
+  //Lacze.DodajNazwePliku("bryly/wirnik22.dat");        //lewy wirnik
 
 
   Lacze.UstawZakresX(-100, 100);
@@ -56,19 +56,20 @@ int main()
   //Lacze.UstawRotacjeXZ(40, 60); // Tutaj ustawiany jest widok
   Lacze.UstawRotacjeXZ(76, 336); // Tutaj ustawiany jest widok
   //###################
+  
   //cuboid.Eksportzpliku("bryly/model2.dat");
   //cuboid.Importdopliku(kDroneFile);
   //cuboid.rysuj(kDroneFile);
 
-  dron.getdron().Eksportzpliku("bryly/model2.dat");
-  dron.getdron().Importdopliku("bryly/drone.dat");
-  dron.getdron().rysuj(kDroneFile);
-  dron.getwirnik1().Eksportzpliku("bryly/modelwirnik11.dat");
-  dron.getwirnik1().Importdopliku("bryly/wirnik11.dat");
-  dron.getwirnik1().rysuj("bryly/wirnik11.dat");
-  dron.getwirnik2().Eksportzpliku("bryly/modelwirnik22.dat");
-  dron.getwirnik2().Importdopliku("bryly/wirnik22.dat");
-  dron.getwirnik2().rysuj("bryly/wirnik22.dat");
+  scena.getdron().getdron().Eksportzpliku("bryly/model2.dat");
+  scena.getdron().getdron().Importdopliku("bryly/drone.dat");
+  scena.getdron().getdron().rysuj(kDroneFile);
+  scena.getdron().getwirnik1().Eksportzpliku("bryly/modelwirnik11.dat");
+  scena.getdron().getwirnik1().Importdopliku("bryly/wirnik11.dat");
+  scena.getdron().getwirnik1().rysuj("bryly/wirnik11.dat");
+  scena.getdron().getwirnik2().Eksportzpliku("bryly/modelwirnik22.dat");
+  scena.getdron().getwirnik2().Importdopliku("bryly/wirnik22.dat");
+  scena.getdron().getwirnik2().rysuj("bryly/wirnik22.dat");
 
   //dron.getwirnik1().wyznaczenie_punktu_symetrii();
   //dron.getwirnik2().wyznaczenie_punktu_symetrii();
@@ -77,9 +78,9 @@ int main()
   //wirnik1.Importdopliku("bryly/wirnik11.dat");
   //wirnik1.rysuj("bryly/wirnik11.dat");
 
-  dron.getdron().zorientowanie();
-  dron.getwirnik1().zorientowanie();
-  dron.getwirnik2().zorientowanie();
+  scena.getdron().getdron().zorientowanie();
+  scena.getdron().getwirnik1().zorientowanie();
+  scena.getdron().getwirnik2().zorientowanie();
 
   Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
 
@@ -125,7 +126,7 @@ int main()
           odlegloscZ = odlegloscR * sin((b*M_PI)/180);
           odlegloscY = odlegloscR * cos((b*M_PI)/180);
 
-          wek_ruchu = dron.getdron().ruch(odlegloscY, odlegloscZ);  //liczy się dobrze !
+          wek_ruchu = scena.getdron().getdron().ruch(odlegloscY, odlegloscZ);  //liczy się dobrze !
           cout << "wektor ruchu: " << wek_ruchu << endl;
             //double kaat = dron.getkat();
             //cout << "###" << kaat << endl;
@@ -135,25 +136,22 @@ int main()
 
           for (int i = 0; i < 200; i++)
           {
-              dron.getdron().translate(wek_ruchu / 200);
+              scena.getdron().getdron().translate(wek_ruchu / 200);
 
-              dron.getwirnik1().translate(wek_ruchu / 200);
+              scena.getdron().getwirnik1().translate(wek_ruchu / 200);
               /*obrót wirnika 1 !!!!!!!!!!!!!*/                                        /*Coś może z kątem obrotu wirników ???*/
               //dron.getwirnik1().wyznaczenie_punktu_symetrii();
               //dron.getwirnik1().obrotwir(radian);
               
-              dron.getwirnik2().translate(wek_ruchu / 200);
+              scena.getdron().getwirnik2().translate(wek_ruchu / 200);
               /*obrót wirnika 1 !!!!!!!!!!!!!*/
               //dron.getwirnik2().wyznaczenie_punktu_symetrii();
               //dron.getwirnik2().obrotwir(radian);
 
-              //dron.rysuj(kDroneFile);
-              //dron.getdron().Importdopliku(kDroneFile); //importowanie nowych danych do pliku
-              dron.getdron().rysuj(kDroneFile); //importowanie nowych danych do pliku
-              dron.getwirnik1().rysuj("bryly/wirnik11.dat"); 
-              dron.getwirnik2().rysuj("bryly/wirnik22.dat");
-              //dron.getwirnik1().Importdopliku("bryly/wirnik11.dat");
-              //dron.getwirnik2().Importdopliku("bryly/wirnik22.dat");
+              scena.getdron().getdron().rysuj(kDroneFile); //importowanie nowych danych do pliku
+              scena.getdron().getwirnik1().rysuj("bryly/wirnik11.dat"); 
+              scena.getdron().getwirnik2().rysuj("bryly/wirnik22.dat");
+
               Lacze.Rysuj();
               chrono::milliseconds timespan(10);
               this_thread::sleep_for(timespan);
@@ -167,12 +165,12 @@ int main()
           cin >> a;
           for (int i = 0; i < 30; i++)
           {
-              dron.getdron().rotateZ(a / 30);
-              dron.getwirnik1().rotateZ(a / 30);
-              dron.getwirnik2().rotateZ(a / 30);
-              dron.getdron().rysuj(kDroneFile);
-              dron.getwirnik1().rysuj("bryly/wirnik11.dat");
-              dron.getwirnik2().rysuj("bryly/wirnik22.dat");
+              scena.getdron().getdron().rotateZ(a / 30);
+              scena.getdron().getwirnik1().rotateZ(a / 30);
+              scena.getdron().getwirnik2().rotateZ(a / 30);
+              scena.getdron().getdron().rysuj(kDroneFile);
+              scena.getdron().getwirnik1().rysuj("bryly/wirnik11.dat");
+              scena.getdron().getwirnik2().rysuj("bryly/wirnik22.dat");
               Lacze.Rysuj();
               chrono::milliseconds timespan(50);
               this_thread::sleep_for(timespan);

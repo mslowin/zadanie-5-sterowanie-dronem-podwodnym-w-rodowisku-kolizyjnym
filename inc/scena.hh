@@ -15,19 +15,19 @@ template <int rozmiar1, int rozmiar2, int rozmiar3, int rozmiar4>
 class Scena : public Bryla<rozmiar1 || rozmiar2 || rozmiar3 || rozmiar4>
 {
     Dron<rozmiar1, rozmiar4> dron;
-    Powierzchnia<rozmiar2> woda;    //bryla wody (statyczna)
-    Powierzchnia<rozmiar3> podloze; //bryla podloze (statyczna)
+    //Powierzchnia<rozmiar2> woda;    //bryla wody (statyczna)
+    //Powierzchnia<rozmiar3> podloze; //bryla podloze (statyczna)
     vector<Przeszkoda<rozmiar1>> przeszkoda;
-    //PzG::LaczeDoGNUPlota Lacze; //gnuplot
+    PzG::LaczeDoGNUPlota Lacze; //gnuplot
 
 public:
     //metody pozwalajace dostac sie do pliku
     Dron<rozmiar1, rozmiar4> getdron() const { return dron; }
     Dron<rozmiar1, rozmiar4> &getdron() { return dron; }
-    Powierzchnia<rozmiar2> getwoda() const { return woda; }
-    Powierzchnia<rozmiar2> &getwoda() { return woda; }
-    Powierzchnia<rozmiar3> getpodloze() const { return podloze; }
-    Powierzchnia<rozmiar3> &getpodloze() { return podloze; }
+    //Powierzchnia<rozmiar2> getwoda() const { return woda; }
+    //Powierzchnia<rozmiar2> &getwoda() { return woda; }
+    //Powierzchnia<rozmiar3> getpodloze() const { return podloze; }
+    //Powierzchnia<rozmiar3> &getpodloze() { return podloze; }
     vector<Przeszkoda<rozmiar1>> getprzeszkoda() const { return przeszkoda; }
     vector<Przeszkoda<rozmiar1>> &getprzeszkoda() { return przeszkoda; }
     //metoda rysujaca z plikow w gnuplocie
@@ -43,7 +43,7 @@ public:
         Lacze.UstawZakresX(-100, 100);  // Tutaj ustawiany jest zakres X
         Lacze.UstawZakresY(-100, 100);  // Tutaj ustawiany jest zakres Y
         Lacze.UstawZakresZ(-50, 100);   // Tutaj ustawiany jest zakres Z
-        Lacze.UstawRotacjeXZ(76, 336);    // Tutaj ustawiany jest widok
+        Lacze.UstawRotacjeXZ(60, 40);    // Tutaj ustawiany jest widok
         Lacze.UsunWszystkieNazwyPlikow();
         Lacze.DodajNazwePliku("bryly/wirnik11.dat");
         Lacze.DodajNazwePliku("bryly/wirnik22.dat");
@@ -84,13 +84,13 @@ public:
 
     int czykolizja()
     {
-        int czykolizja = 0;
+        /*int czykolizja = 0;
         czykolizja = porownajzakresy(podloze.zakres(), dron.zakres());
         if (czykolizja == 1)
             return 1;
         czykolizja = porownajzakresy(woda.zakres(), dron.zakres());
         if (czykolizja == 1)
-            return 2;
+            return 2;*/
         for (int i = 0; i < przeszkoda.size(); i++)
         {
             czykolizja = porownajzakresy(przeszkoda[i].zakres(), dron.zakres());
@@ -200,7 +200,7 @@ public:
             this_thread::sleep_for(timespan);
         }
     }*/
-    
+
     void nazwa_przeszkody()
     {
         char *nazwa = nullptr;
@@ -236,7 +236,7 @@ public:
         przeszkoda.push_back(obiekt);
         nazwa_przeszkody();
 
-        rysuj();
+        Lacze.Rysuj();
     }
 };
 
