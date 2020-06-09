@@ -41,26 +41,36 @@ int main()
 
   
   
+  
+  
   //###################
+  /*
   Lacze.DodajNazwePliku(kDroneFile.c_str(), PzG::RR_Ciagly, 1);    //dron 
   Lacze.ZmienTrybRys(PzG::TR_3D);
+ */
+ 
   //Lacze.DodajNazwePliku("bryly/pow_wody.dat");        //powierzchnia wody   
   //Lacze.DodajNazwePliku("bryly/ziemia.dat");          //powierzchnia ziemi
   //Lacze.DodajNazwePliku("bryly/wirnik11.dat");        //prawy wirnik
   //Lacze.DodajNazwePliku("bryly/wirnik22.dat");        //lewy wirnik
 
-
+/*
   Lacze.UstawZakresX(-100, 100);
   Lacze.UstawZakresY(-100, 100);
   Lacze.UstawZakresZ(-50, 100);
-
-  //Lacze.UstawRotacjeXZ(40, 60); // Tutaj ustawiany jest widok
   Lacze.UstawRotacjeXZ(76, 336); // Tutaj ustawiany jest widok
+  */
+  
+  //Lacze.UstawRotacjeXZ(40, 60); // Tutaj ustawiany jest widok
   //###################
   
   //cuboid.Eksportzpliku("bryly/model2.dat");
   //cuboid.Importdopliku(kDroneFile);
   //cuboid.rysuj(kDroneFile);
+
+  scena.getpodloze().Eksportzpliku("bryly/ziemia.dat");
+  scena.getpodloze().getpowierzchnia().Eksportzpliku("bryly/ziemia.dat");
+  scena.getwoda().getpowierzchnia().Eksportzpliku("bryly/pow_wody.dat");
 
   scena.getdron().getdron().Eksportzpliku("bryly/model2.dat");
   scena.getdron().getdron().Importdopliku("bryly/drone.dat");
@@ -83,7 +93,10 @@ int main()
   scena.getdron().getwirnik1().zorientowanie();
   scena.getdron().getwirnik2().zorientowanie();
 
-  Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
+  scena.getdron().getwirnik1().wyznaczenie_punktu_symetrii();
+
+  //Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
+  scena.rysuj();
 
   cout << endl
        << endl
@@ -153,7 +166,20 @@ int main()
               scena.getdron().getwirnik1().rysuj("bryly/wirnik11.dat"); 
               scena.getdron().getwirnik2().rysuj("bryly/wirnik22.dat");
 
-              Lacze.Rysuj();
+              //Lacze.Rysuj();
+              scena.rysuj();
+
+              double czyblad = 0;
+              czyblad = scena.czykolizja();
+              cout << "czy blad: " << czyblad << endl;
+              if (czyblad > 0)
+              {
+                  scena.co_sie_stalo(czyblad);
+                  scena.getdron().getdron().popraw();
+                  scena.getdron().getwirnik1().popraw();
+                  scena.getdron().getwirnik2().popraw();
+                  break;
+              }
               chrono::milliseconds timespan(10);
               this_thread::sleep_for(timespan);
           }
@@ -172,7 +198,8 @@ int main()
               scena.getdron().getdron().rysuj(kDroneFile);
               scena.getdron().getwirnik1().rysuj("bryly/wirnik11.dat");
               scena.getdron().getwirnik2().rysuj("bryly/wirnik22.dat");
-              Lacze.Rysuj();
+              //Lacze.Rysuj();
+              scena.rysuj();
               chrono::milliseconds timespan(50);
               this_thread::sleep_for(timespan);
           }
@@ -181,7 +208,8 @@ int main()
       case 'd':
       {
           scena.dodaj_przeszkode();
-          Lacze.Rysuj();
+          scena.rysuj();
+          //Lacze.Rysuj();
           break;
       }
       case 'm':

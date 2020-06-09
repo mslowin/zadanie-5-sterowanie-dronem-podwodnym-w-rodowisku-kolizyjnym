@@ -12,35 +12,35 @@ using namespace std;
 
 class Zakres
 {
-    float x_min;
-    float x_max;
-    float y_min;
-    float y_max;
-    float z_min;
-    float z_max;
+    double x_min;
+    double x_max;
+    double y_min;
+    double y_max;
+    double z_min;
+    double z_max;
 
 public:
-    float getx_min() const { return x_min; }
-    float &getx_min() { return x_min; }
-    float getx_max() const { return x_max; }
-    float &getx_max() { return x_max; }
-    float gety_min() const { return y_min; }
-    float &gety_min() { return y_min; }
-    float gety_max() const { return y_max; }
-    float &gety_max() { return y_max; }
-    float getz_min() const { return z_min; }
-    float &getz_min() { return z_min; }
-    float getz_max() const { return z_max; }
-    float &getz_max() { return z_max; }
+    double getx_min() const { return x_min; }
+    double &getx_min() { return x_min; }
+    double getx_max() const { return x_max; }
+    double &getx_max() { return x_max; }
+    double gety_min() const { return y_min; }
+    double &gety_min() { return y_min; }
+    double gety_max() const { return y_max; }
+    double &gety_max() { return y_max; }
+    double getz_min() const { return z_min; }
+    double &getz_min() { return z_min; }
+    double getz_max() const { return z_max; }
+    double &getz_max() { return z_max; }
 
     Zakres()
     {
-        float x_min = 0;
-        float x_max = 0;
-        float y_min = 0;
-        float y_max = 0;
-        float z_min = 0;
-        float z_max = 0;
+        double x_min = 0;
+        double x_max = 0;
+        double y_min = 0;
+        double y_max = 0;
+        double z_min = 0;
+        double z_max = 0;
     }
 
     /* void wyswietl()

@@ -323,55 +323,20 @@ public:
         return wek_ruchu;
     }
 
-
-};
-
-/**
- * @brief konstruuje nowy Bryla:: Bryla object
- * 
- */
-/*
-Bryla::Bryla(): angle{0}
-{
-    ifstream inputFile;
-    inputFile.open(kModelCuboid);
-    if(!inputFile.is_open())
+    void popraw()
     {
-        cerr << "Unable to load model Cuboid file!" 
-             << endl;
-        return;
-    }
-
-    Wektor3D point;
-    while(inputFile >> point)
-    {
-        points.push_back(point);
-    }
-    inputFile.close();
-}*/
-
-/**
- * @brief rysuje prostopadłościan do pliku
- * 
- * @param filename nazwa pliku w którym zapisuje
- */
-/*void Bryla::rysuj(std::string filename) const
-{
-    ofstream outputFile;
-    outputFile.open(filename);
-    if(!outputFile.is_open())
-    {
-        cerr << "Unable to open drone file!" << endl;
-        return;
-    }
-    for(unsigned i = 0; i < points.size(); ++i)
-    {
-        outputFile << points[i] + translation << endl;
-        if(i % 4 == 3) // triggers after every 4 points
+        cout << "######" << endl;
+        Bryla<rozmiar> tmp = Bryla<rozmiar>();
+        for (int i = 0; i < rozmiar; i++)
         {
-            outputFile << "#\n\n";
+            for (int j = 0; j < 3; j++)
+            {
+                tmp[i][j] = round(points[i][j]);
+                points[i][j] =tmp[i][j];
+            }
         }
     }
-}*/
+
+};
 
 #endif

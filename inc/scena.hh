@@ -16,8 +16,8 @@ template <int rozmiar1, int rozmiar2, int rozmiar3, int rozmiar4>
 class Scena : public Bryla<rozmiar1 || rozmiar2 || rozmiar3 || rozmiar4>
 {
     Dron<rozmiar1, rozmiar4> dron;
-    //Powierzchnia<rozmiar2> woda;    //bryla wody (statyczna)
-    //Powierzchnia<rozmiar3> podloze; //bryla podloze (statyczna)
+    Powierzchnia<rozmiar2> woda;    //bryla wody (statyczna)
+    Powierzchnia<rozmiar3> podloze; //bryla podloze (statyczna)
     vector<Przeszkoda<rozmiar1>> przeszkoda;
     PzG::LaczeDoGNUPlota Lacze; //gnuplot
 
@@ -25,10 +25,10 @@ public:
     //metody pozwalajace dostac sie do pliku
     Dron<rozmiar1, rozmiar4> getdron() const { return dron; }
     Dron<rozmiar1, rozmiar4> &getdron() { return dron; }
-    //Powierzchnia<rozmiar2> getwoda() const { return woda; }
-    //Powierzchnia<rozmiar2> &getwoda() { return woda; }
-    //Powierzchnia<rozmiar3> getpodloze() const { return podloze; }
-    //Powierzchnia<rozmiar3> &getpodloze() { return podloze; }
+    Powierzchnia<rozmiar2> getwoda() const { return woda; }
+    Powierzchnia<rozmiar2> &getwoda() { return woda; }
+    Powierzchnia<rozmiar3> getpodloze() const { return podloze; }
+    Powierzchnia<rozmiar3> &getpodloze() { return podloze; }
     vector<Przeszkoda<rozmiar1>> getprzeszkoda() const { return przeszkoda; }
     vector<Przeszkoda<rozmiar1>> &getprzeszkoda() { return przeszkoda; }
 
@@ -45,6 +45,11 @@ public:
         Lacze.DodajNazwePliku("bryly/ziemia.dat");
         Lacze.DodajNazwePliku("bryly/pow_wody.dat");
         Lacze.DodajNazwePliku("bryly/drone.dat");
+    }
+
+    void rysuj()
+    {
+        Lacze.Rysuj();
     }
 
     int porownajzakresy(Zakres tmp, Zakres pom)
@@ -77,15 +82,15 @@ public:
         return 0;
     }
 
-    int czykolizja()
+    double czykolizja()
     {
-        /*int czykolizja = 0;
+        double czykolizja = 0;
         czykolizja = porownajzakresy(podloze.zakres(), dron.zakres());
         if (czykolizja == 1)
             return 1;
         czykolizja = porownajzakresy(woda.zakres(), dron.zakres());
         if (czykolizja == 1)
-            return 2;*/
+            return 2;
         for (int i = 0; i < przeszkoda.size(); i++)
         {
             czykolizja = porownajzakresy(przeszkoda[i].zakres(), dron.zakres());
