@@ -95,6 +95,33 @@ int main()
 
   scena.getdron().getwirnik1().wyznaczenie_punktu_symetrii();
 
+  // WCZYTYWANIE PRZESZKÓD
+      Przeszkoda<20> obiekt = Przeszkoda<20>();
+
+      obiekt.tworzprzeszkode(80, 85, -90, 10, 0, 40);
+      scena.getprzeszkoda().push_back(obiekt);
+      scena.nazwa_przeszkody();
+      obiekt.tworzprzeszkode(70, 90, 70, 90, -15, 65);
+      scena.getprzeszkoda().push_back(obiekt);
+      scena.nazwa_przeszkody();
+      obiekt.tworzprzeszkode(-90, -40, -90, -40, -20, -10);
+      scena.getprzeszkoda().push_back(obiekt);
+      scena.nazwa_przeszkody();
+      obiekt.tworzprzeszkode(-80, 0, 80, 87, 70, 77);
+      scena.getprzeszkoda().push_back(obiekt);
+      scena.nazwa_przeszkody();
+      obiekt.tworzprzeszkode(-80, 0, 80, 87, 30, 37);
+      scena.getprzeszkoda().push_back(obiekt);
+      scena.nazwa_przeszkody();
+      obiekt.tworzprzeszkode(-80, 0, 80, 87, -10, -3);
+      scena.getprzeszkoda().push_back(obiekt);
+      scena.nazwa_przeszkody();
+      obiekt.tworzprzeszkode(-90, -80, -90, -20, 20, 70);
+      scena.getprzeszkoda().push_back(obiekt);
+      scena.nazwa_przeszkody();
+      scena.rysuj();
+      cout << "\n\nprzeszkody zostaly wczytane" << endl;
+
   //Lacze.Rysuj(); // Gnuplot rysuje to co jest w pliku
   scena.rysuj();
 
@@ -115,7 +142,7 @@ int main()
   double b;                //kąt opadania/wznoszenia
   double odlegloscZ;       //odległość opadania/wznoszenia (zmienna z - wertykalna)
   double odlegloscY;       //zmienna x odległośi przesunięcia 
-  double odlegloscR;       //odległość przesunięcia 
+  double odlegloscR;       //odległość przesunięcia
 
   do
   {
@@ -130,12 +157,15 @@ int main()
                << "Podaj wartość kąta (wznoszenia/opadania) w stopniach" << endl;
           cout << "Wartość kąta:   ";
           cin >> b;
-          dron.getkat() = dron.getkat() + b;
+          scena.getdron().getkat() = scena.getdron().getkat() + b;
           cout << endl
                << "Podaj wartość odległości, na którą ma się przemiescić dron" << endl;
           cout << "Wartość odległości:   ";
           cin >> odlegloscR;
+          //cin >> odl;
           cout << endl;
+
+         // scena.poruszanie(odl, scena.getdron().getkat());
 
           odlegloscZ = odlegloscR * sin((b*M_PI)/180);
           odlegloscY = odlegloscR * cos((b*M_PI)/180);
@@ -153,12 +183,12 @@ int main()
               scena.getdron().getdron().translate(wek_ruchu / 200);
 
               scena.getdron().getwirnik1().translate(wek_ruchu / 200);
-              /*obrót wirnika 1 !!!!!!!!!!!!!*/                                        /*Coś może z kątem obrotu wirników ???*/
+              //obrót wirnika 1 !!!!!!!!!!!!!                                      //Coś może z kątem obrotu wirników ???
               //dron.getwirnik1().wyznaczenie_punktu_symetrii();
               //dron.getwirnik1().obrotwir(radian);
               
               scena.getdron().getwirnik2().translate(wek_ruchu / 200);
-              /*obrót wirnika 1 !!!!!!!!!!!!!*/
+              //obrót wirnika 1 !!!!!!!!!!!!!
               //dron.getwirnik2().wyznaczenie_punktu_symetrii();
               //dron.getwirnik2().obrotwir(radian);
 
@@ -169,9 +199,9 @@ int main()
               //Lacze.Rysuj();
               scena.rysuj();
 
-              double czyblad = 0;
-              czyblad = scena.czykolizja();
-              cout << "czy blad: " << czyblad << endl;
+              double czyblad;
+              czyblad = scena.czykolizja();             //TU COS NIE TAK BO OD RAZU PRZED RUCHEM WYKRYWA KOLIZJĘ
+              cout << "czy kolizja: " << czyblad << endl;
               if (czyblad > 0)
               {
                   scena.co_sie_stalo(czyblad);
@@ -182,7 +212,7 @@ int main()
               }
               chrono::milliseconds timespan(10);
               this_thread::sleep_for(timespan);
-          }
+          }//if
           break; 
       }
       case 'o':

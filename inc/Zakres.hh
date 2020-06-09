@@ -43,7 +43,7 @@ public:
         double z_max = 0;
     }
 
-    /* void wyswietl()
+    /*void wyswietl()
     {
         cout << x_min << " x " << x_max << endl;
         cout << y_min << " y " << y_max << endl;

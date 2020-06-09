@@ -322,7 +322,7 @@ public:
 
         return wek_ruchu;
     }
-
+    
     void popraw()
     {
         cout << "######" << endl;
