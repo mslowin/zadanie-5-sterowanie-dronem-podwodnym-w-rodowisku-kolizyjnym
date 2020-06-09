@@ -13,14 +13,14 @@ template<int rozmiar>
 class Przeszkoda : public Bryla<rozmiar>
 {
     Bryla<rozmiar> przeszkoda;
-    vector<Wektor3D> wek_orient;
+    vector<SWektor<double, 3>> wek_orient;
     string nazwa;
 
 public:
     Bryla<rozmiar> getprzeszkoda() const { return przeszkoda; }
     Bryla<rozmiar> &getprzeszkoda() { return przeszkoda; }
-    vector<Wektor3D> getwek_orient() const { return wek_orient; }
-    vector<Wektor3D> &getwek_orient() { return wek_orient; }
+    vector<SWektor<double, 3>> getwek_orient() const { return wek_orient; }
+    vector<SWektor<double, 3>> &getwek_orient() { return wek_orient; }
     string getnazwa() const { return nazwa; }
     string &getnazwa() { return nazwa; }
 
@@ -42,19 +42,18 @@ public:
             wek_orient.push_back(obiekt);
         }
     }
-    void tworzprzeszkode(float x1, float x2, float y1, float y2, float z1, float z2)
+    void tworzprzeszkode(double x1, double x2, double y1, double y2, double z1, double z2)
     {
-        przeszkoda.getbryla()[0].wektorXYZ(x1, y1, z1);
-        // przeszkoda.getbryla()[1].wektorXYZ(x1, y1, z1);
-        przeszkoda.getbryla()[1].wektorXYZ(x2, y1, z1);
-        przeszkoda.getbryla()[2].wektorXYZ(x2, y2, z1);
-        przeszkoda.getbryla()[3].wektorXYZ(x1, y2, z1);
-        przeszkoda.getbryla()[4].wektorXYZ(x1, y1, z1);
-        przeszkoda.getbryla()[5].wektorXYZ(x1, y1, z2);
-        przeszkoda.getbryla()[6].wektorXYZ(x2, y1, z2);
-        przeszkoda.getbryla()[7].wektorXYZ(x2, y1, z1);
-        przeszkoda.getbryla()[8].wektorXYZ(x2, y1, z2);
-        przeszkoda.getbryla()[9].wektorXYZ(x2, y2, z2);
+        przeszkoda.getbryla() [0].wektorXYZ(x1, y1, z1);
+        przeszkoda.getbryla() [1].wektorXYZ(x2, y1, z1);
+        przeszkoda.getbryla() [2].wektorXYZ(x2, y2, z1);
+        przeszkoda.getbryla() [3].wektorXYZ(x1, y2, z1);
+        przeszkoda.getbryla() [4].wektorXYZ(x1, y1, z1);
+        przeszkoda.getbryla() [5].wektorXYZ(x1, y1, z2);
+        przeszkoda.getbryla() [6].wektorXYZ(x2, y1, z2);
+        przeszkoda.getbryla() [7].wektorXYZ(x2, y1, z1);
+        przeszkoda.getbryla() [8].wektorXYZ(x2, y1, z2);
+        przeszkoda.getbryla() [9].wektorXYZ(x2, y2, z2);
         przeszkoda.getbryla()[10].wektorXYZ(x2, y2, z1);
         przeszkoda.getbryla()[11].wektorXYZ(x2, y2, z2);
         przeszkoda.getbryla()[12].wektorXYZ(x1, y2, z2);

@@ -30,20 +30,14 @@ public:
     //Powierzchnia<rozmiar3> &getpodloze() { return podloze; }
     vector<Przeszkoda<rozmiar1>> getprzeszkoda() const { return przeszkoda; }
     vector<Przeszkoda<rozmiar1>> &getprzeszkoda() { return przeszkoda; }
-    //metoda rysujaca z plikow w gnuplocie
-    /*void rysuj()
-    {
-        Lacze.Rysuj();
-    }*/
 
-    //konstruktor wywolywany na poczatku programu
     Scena()
     {
         Lacze.ZmienTrybRys(PzG::TR_3D); // Tutaj ustawiany jest tryb 3D
         Lacze.UstawZakresX(-100, 100);  // Tutaj ustawiany jest zakres X
         Lacze.UstawZakresY(-100, 100);  // Tutaj ustawiany jest zakres Y
         Lacze.UstawZakresZ(-50, 100);   // Tutaj ustawiany jest zakres Z
-        Lacze.UstawRotacjeXZ(60, 40);    // Tutaj ustawiany jest widok
+        Lacze.UstawRotacjeXZ(76, 336);  // Tutaj ustawiany jest widok
         Lacze.UsunWszystkieNazwyPlikow();
         Lacze.DodajNazwePliku("bryly/wirnik11.dat");
         Lacze.DodajNazwePliku("bryly/wirnik22.dat");
@@ -110,97 +104,6 @@ public:
             cout << " zderzenie z przeszkoda " << endl;
     }
 
-    /*void obracanie(double kat, char a)
-    {
-        cout << "podany kat:  " << kat << endl;
-        double obr, radian;
-        radian = (3.14 * kat) / (180);
-        radian = radian / 200;
-        cout << "o ktory sie obraca:  " << radian << endl;
-        for (int i = 0; i < 200 - 1; i++)
-        {
-            obr = (3.14 * dron.getdron().getkat()) / 180 + radian * i;
-
-            dron.getdron().obrot(dron.getdron().getprzesuniecie(), radian, a); //obracanie drona (inc/bryla.hh)
-
-            dron.getwirnik1().obrot(dron.getdron().getprzesuniecie(), radian, a);
-            dron.getwirnik1().wyznaczenie_punktu_symetrii();
-            dron.getwirnik1().obrotwir(obr);
-
-            dron.getwirnik2().obrot(dron.getdron().getprzesuniecie(), radian, a);
-            dron.getwirnik2().wyznaczenie_punktu_symetrii();
-            dron.getwirnik2().obrotwir(obr);
-
-            dron.getdron().Importdopliku("bryly/dron1.dat"); //importowanie nowych danych do pliku
-            dron.getwirnik1().Importdopliku("bryly/wirnikk1.dat");
-            dron.getwirnik2().Importdopliku("bryly/wirnikk2.dat");
-            rysuj(); //wyrysowanie nowej sceny
-            int czyblad = 0;
-            czyblad = czykolizja();
-
-            // czyblad = czy_nastapilo_zderzenie();
-            if (czyblad > 0)
-            {
-                dron.getdron().napraw();
-                dron.getwirnik1().napraw();
-                dron.getwirnik2().napraw();
-                co_sie_stalo(czyblad);
-                break;
-            }
-            // funkcje z biblioteki "chrono" sluzace do opoznienia programu (plynnego przejscia drona)
-            chrono::milliseconds timespan(10); //"100" 100 ms to 0,1sek.
-            this_thread::sleep_for(timespan);
-        }
-        dron.getdron().getkat() = dron.getdron().getkat() + kat;
-        dron.getwirnik1().getkat() = dron.getwirnik1().getkat() + kat;
-        dron.getwirnik2().getkat() = dron.getwirnik2().getkat() + kat;
-    }*/
-
-    /*void poruszanie(float odl, double kat)
-    {
-        Wektor wek_ruchu;
-        Wektor wek_przesuniecia;
-
-        wek_ruchu = dron.getdron().ruch(odl, kat); //funkcja do utrzymania porzadku (inc/bryla.hh)
-        dron.getdron().getprzesuniecie() = dron.getdron().getprzesuniecie() + wek_ruchu;
-
-        
-        double radian = (3.14 * dron.getdron().getkat()) / (180);
-        cout << "###" << radian << endl;
-        for (int i = 0; i < 200; i++)
-        {
-            dron.getdron().przesun(wek_ruchu / 200); //przesuwanie drona (inc/bryla.hh)
-
-            dron.getwirnik1().przesun(wek_ruchu / 200);
-            dron.getwirnik1().wyznaczenie_punktu_symetrii();
-            dron.getwirnik1().obrotwir(radian);
-
-            dron.getwirnik2().przesun(wek_ruchu / 200);
-            dron.getwirnik2().wyznaczenie_punktu_symetrii();
-            dron.getwirnik2().obrotwir(radian);
-
-            dron.getdron().Importdopliku("bryly/dron1.dat"); //importowanie nowych danych do pliku
-            dron.getwirnik1().Importdopliku("bryly/wirnikk1.dat");
-            dron.getwirnik2().Importdopliku("bryly/wirnikk2.dat");
-            rysuj();
-            int czyblad = 0; //wyrysowanie nowej sceny
-            czyblad = czykolizja();
-            // czyblad = czy_nastapilo_zderzenie();
-            if (czyblad > 0)
-            {
-                co_sie_stalo(czyblad);
-                dron.getdron().napraw();
-                dron.getwirnik1().napraw();
-                dron.getwirnik2().napraw();
-                break;
-            }
-
-            // funkcje z biblioteki "chrono" sluzace do opoznienia programu (plynnego przejscia drona)
-            chrono::milliseconds timespan(10); //"100" 100 ms to 0,1sek.
-            this_thread::sleep_for(timespan);
-        }
-    }*/
-
     void nazwa_przeszkody()
     {
         char *nazwa = nullptr;
@@ -222,10 +125,10 @@ public:
     void dodaj_przeszkode()
     {
         // przeszkoda[0].getlp() = liczba;
-        float x1 = 0, x2 = 0, y1 = 0, y2 = 0, z1 = 0, z2 = 0, x = 0, y = 0, z = 0;
-        cout << "wpisz dlugosc boku x ,y ,z" << endl;
+        double x1 = 0, x2 = 0, y1 = 0, y2 = 0, z1 = 0, z2 = 0, x = 0, y = 0, z = 0;
+        cout << endl << "Podaj dlugosc boków x ,y ,z >  ";
         cin >> x >> y >> z;
-        cout << " wpisz wspolrzedne miejsca rozpoczecia przeszkody " << endl;
+        cout << "Podaj wspolrzedne miejsca początku rysowania przeszkody >  ";
         cin >> x1 >> y1 >> z1;
         x2 = x1 + x;
         y2 = y1 + y;
@@ -236,7 +139,7 @@ public:
         przeszkoda.push_back(obiekt);
         nazwa_przeszkody();
 
-        Lacze.Rysuj();
+        //Lacze.Rysuj();
     }
 };
 

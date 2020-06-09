@@ -17,7 +17,25 @@ class SWektor {
 public:
     SWektor() { for (STyp &Tab: _Tab) Tab = 0; }
     STyp  operator[] (unsigned int l) const {return _Tab[l];};
-    STyp &operator[] (unsigned int l)       {return _Tab[l];};
+    STyp &operator[](unsigned int l) { return _Tab[l]; };
+
+    // metoda wpisujaca okreslony wektor
+    void wektorXYZ(float x, float y, float z)
+    {
+        (*this)[0] = x;
+        (*this)[1] = y;
+        (*this)[2] = z;
+    }
+
+    //przeciazenie operatora przyrowanania
+    void operator=(float tmp)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            (*this)[i] = tmp;
+        }
+    }
+
     SWektor<STyp,SWymiar> operator +(const SWektor<STyp,SWymiar> &W2)const    /*Przeciążenie dodawania dwóch wektorów*/
     {
         SWektor<STyp, SWymiar> Wynik;

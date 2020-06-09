@@ -179,7 +179,8 @@ int main()
       }
       case 'd':
       {
-          //przeszkoda.dodaj_przeszkode();
+          scena.dodaj_przeszkode();
+          Lacze.Rysuj();
           break;
       }
       case 'm':

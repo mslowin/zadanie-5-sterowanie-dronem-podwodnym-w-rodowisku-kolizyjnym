@@ -1,6 +1,6 @@
 Zadanie 5 sterowanie dronem podwodnym w srodowisku kolizyjnym
 
-* Dodać liczenie wektorów, liste wskaźników do przeszkód, kolizje
+PROGRAM NIE JEST JESZCZE GOTOWY (NIE MA KOLIZI, WIRNIKI SIĘ NIE KRĘCĄ, NIE MA LICZENIA WEKTORÓW)
 
 * Program uruchamiany za pomocą komendy 'make'
 
