@@ -10,9 +10,6 @@
  *  Klasa modelująca Macierz
  *  _Tab[3][3] - tablica będąca macierzą o 3ach 3 x 3
  */
- /*template <class STyp>
-class SMacierz {
-    SWektor<STyp> macierz[3];*/
 template <typename STyp, int SWymiar>
 class SMacierz {
     SWektor<STyp,SWymiar> _Tab[3];
@@ -22,9 +19,11 @@ class SMacierz {
     SWektor<STyp,SWymiar> &operator[](unsigned int Ind)       {return _Tab[Ind];};
     STyp  operator ()(unsigned int Wiersz, unsigned int Kolumna) const {return _Tab[Wiersz][Kolumna];}
     STyp& operator ()(unsigned int Wiersz, unsigned int Kolumna)       { return _Tab[Wiersz][Kolumna]; }
-    /*!
-    *  metoda wypełniająca macierz zerami
-    */
+
+    /**
+     * @brief Konstruuje nowy objekt SMacierz i wypełnia go zerami 
+     * 
+     */
     SMacierz()
     {
 

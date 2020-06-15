@@ -9,6 +9,11 @@
 
 using namespace std;
 
+/**
+ * @brief Klasa tworząca przeszkodę (prostopadłościan)
+ * 
+ * @tparam rozmiar rozmiar przeszkody (ile linijek współżędnych jest w pliku)
+ */
 template<int rozmiar>
 class Przeszkoda : public Bryla<rozmiar>
 {
@@ -24,6 +29,10 @@ public:
     string getnazwa() const { return nazwa; }
     string &getnazwa() { return nazwa; }
 
+    /**
+     * @brief Construct a new Przeszkoda object
+     * 
+     */
     Przeszkoda()
     {
         Wektor3D obiekt;
@@ -42,6 +51,17 @@ public:
             wek_orient.push_back(obiekt);
         }
     }
+
+    /**
+     * @brief Tworzy nową przeszkodę za pomocą podanych zakresów
+     * 
+     * @param x1 zakres "od" dla x
+     * @param x2 zakres "do" dla x
+     * @param y1 zakres "od" dla y
+     * @param y2 zakres "do" dla y
+     * @param z1 zakres "od" dla z
+     * @param z2 zakres "do" dla z
+     */
     void tworzprzeszkode(double x1, double x2, double y1, double y2, double z1, double z2)
     {
         przeszkoda.getbryla() [0].wektorXYZ(x1, y1, z1);
@@ -69,6 +89,12 @@ public:
         wek_orient[1] = y2 - y1;
         wek_orient[2] = z2 - z1;
     }
+
+    /**
+     * @brief Sprawdza i zwraca zakres przeszkody
+     * 
+     * @return Zakres zakres przeszkody
+     */
     virtual Zakres zakres()
     {
         Zakres tmp;

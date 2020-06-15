@@ -10,6 +10,11 @@
 
 using namespace std;
 
+/**
+ * @brief klasa tworząca powierzchnie np. wody i ziemi
+ * 
+ * @tparam rozmiar 
+ */
 template <int rozmiar>
 class Powierzchnia : public Bryla<rozmiar>
 {
@@ -19,8 +24,17 @@ private:
 public:
     Bryla<rozmiar> getpowierzchnia() const { return powierzchnia; }
     Bryla<rozmiar> &getpowierzchnia() { return powierzchnia; }
+    
+    /**
+     * @brief Construct a new Powierzchnia object
+     * 
+     */
     Powierzchnia() : Bryla<rozmiar>(){};
 
+    /**
+     * @brief Sprawdza zakres powierzchni
+     * 
+     */
     virtual Zakres zakres()//shared_ptr<Zakres> tmp)
     {
         Zakres tmp;

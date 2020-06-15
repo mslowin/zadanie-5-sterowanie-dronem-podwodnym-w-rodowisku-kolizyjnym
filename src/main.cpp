@@ -29,13 +29,11 @@ using namespace std::chrono;
 
 int main()
 {
-  //Bryla<20> cuboid;      // dron, jeszcze jako prostopadłościan bez wirników 
-  //Bryla<33> wirnik1;
   Dron<20, 33> dron = Dron<20, 33>();
   //Przeszkoda<20> przeszkoda = Przeszkoda<20>();
 
   PzG::LaczeDoGNUPlota Lacze;
-  Lacze.Inicjalizuj();          // Tutaj startuje gnuplot.
+  Lacze.Inicjalizuj();                                               // Tutaj startuje gnuplot.
   Scena<20, 43, 25, 33> scena = Scena<20, 43, 25, 33>();             //inicjalizowanie sceny (dron, podloze, woda)
   Wektor3D wek_przesuniecia;   
 
@@ -59,10 +57,6 @@ int main()
   
   //Lacze.UstawRotacjeXZ(40, 60); // Tutaj ustawiany jest widok
   //###################
-  
-  //cuboid.Eksportzpliku("bryly/model2.dat");
-  //cuboid.Importdopliku(kDroneFile);
-  //cuboid.rysuj(kDroneFile);
 
   scena.getpodloze().Eksportzpliku("bryly/ziemia.dat");
   scena.getpodloze().getpowierzchnia().Eksportzpliku("bryly/ziemia.dat");

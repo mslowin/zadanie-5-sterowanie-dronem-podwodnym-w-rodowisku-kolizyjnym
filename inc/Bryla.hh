@@ -21,6 +21,11 @@ const std::string kModelCuboid("bryly/model2.dat");
 //const std::string kModelWirnik1("bryly/modelwirnik11.dat");
 //const std::string kModelWirnik2("bryly/modelwirnik22.dat");
 
+/**
+ * @brief klasa tworząca bryły (dron, przeszkody, itd.)
+ * 
+ * @tparam rozmiar bryły, czyli ile linijek współrzędnych zajmuje bryła
+ */
 template <int rozmiar>
 class Bryla{
     std::vector<Wektor3D> points;
@@ -45,6 +50,11 @@ public:
     double getkat() const { return angle; }
     double &getkat() { return angle; }
 
+    /**
+     * @brief Rysuje, czyli wpisuje do pliku współżędne punktów bryły w zależności od rozmiaru
+     * 
+     * @param filename nazwa pliku który będzie nadpisywany
+     */
     void rysuj(std::string filename) const
     {
         ofstream outputFile;
@@ -64,6 +74,10 @@ public:
         }
     }
 
+    /**
+     * @brief Construct a new Bryla object
+     * 
+     */
     Bryla()
     {
         Wektor3D obiekt;
@@ -79,7 +93,11 @@ public:
         }
     }
 
-    //metoda sluzaca zapisowi wierzcholkow do pliku
+    /**
+     * @brief metoda sluzaca zapisowi wierzcholkow do pliku (właściwie niepotrzebna bo robi to samo0 co rysuj())
+     * 
+     * @param sciezka nazwa pliku w którym będą zapisywane wierzchołki
+     */
     void Importdopliku(string sciezka) //wpisuje sciezke
     {
         ofstream zapis(sciezka); //tworze plik
@@ -93,7 +111,11 @@ public:
         }
         zapis.close(); //zamykam plik
     }
-    //metoda sluzaca pobraniu wierzcholkow z pliku
+    /**
+     * @brief metoda sluzaca pobraniu wierzcholkow z pliku
+     * 
+     * @param plik nazwa pliku z którego będą zczytywane dane
+     */
     void Eksportzpliku(string plik) //wpisuje sciezke
     {
         ifstream file;
@@ -107,6 +129,10 @@ public:
         }
     }
 
+    /**
+     * @brief Pozwala na ruch drona, ustawia orientację bryły
+     * 
+     */
     void zorientowanie()
     {
         orientacja = points[1] - points[0];
@@ -114,6 +140,12 @@ public:
         orientacja[2] = 0;
     }
 
+    /**
+     * @brief Zwraca minimalną wartość współżędnej X, Y lub Z
+     * 
+     * @param tmp nazwa współżędnej ('X', 'Y' lub 'Z')
+     * @return double 
+     */
     double mini(char tmp)
     {
         double a = 100;
@@ -142,6 +174,12 @@ public:
         return a;
     }
 
+    /**
+     * @brief Zwraca maksymalną wartość współżędnej X, Y lub Z
+     * 
+     * @param tmp nazwa współżędnej ('X', 'Y' lub 'Z')
+     * @return double 
+     */
     double maxi(char tmp)
     {
         double a = -100;
@@ -170,7 +208,7 @@ public:
     }
 
     /**
-     * @brief obraca prostopadłościan według osi Z
+     * @brief obraca bryłę według osi Z
      * 
      * @param kat kąt obrotu w stopniach
      */
@@ -188,6 +226,11 @@ public:
         zorientowanie();
     }
 
+    /**
+     * @brief obraca bryłę według osi X
+     * 
+     * @param kat kąt obrotu w stopniach
+     */
     void rotateX(double kat)
     {
         MacierzRot3D mac;
@@ -202,6 +245,10 @@ public:
         zorientowanie();
     }
 
+    /**
+     * @brief Metoda wyznaczająca punkt symetrii bryły
+     * 
+     */
     void wyznaczenie_punktu_symetrii()
     {
         punktsymetrii[0] = (mini('X') + maxi('X')) / 2;
@@ -209,6 +256,13 @@ public:
         punktsymetrii[2] = (mini('Z') + maxi('Z')) / 2;
         //cout << punktsymetrii[0] << " " << punktsymetrii[1] << " " << punktsymetrii[2] << endl; jest dobrze
     }
+
+    /**
+     * @brief obraca bryłę według osi X (dla wirników)
+     * 
+     * @param radian kąt obrotu w radianach
+     * @return SMacierz<double, 3> 
+     */
     SMacierz<double, 3> os_obrotuX(double radian)
     {
         /*MacierzRot3D mac;
@@ -235,6 +289,13 @@ public:
 
         return pom;
     }
+
+    /**
+     * @brief obraca bryłę według osi Y (dla wirników)
+     * 
+     * @param radian kąt obrotu w radianach
+     * @return SMacierz<double, 3> 
+     */
     SMacierz<double, 3> os_obrotuY(double radian)
     {
         SMacierz<double, 3> pom;
@@ -246,6 +307,13 @@ public:
 
         return pom;
     }
+
+    /**
+     * @brief obraca bryłę według osi Z (dla wirników)
+     * 
+     * @param radian kąt obrotu w radianach
+     * @return SMacierz<double, 3> 
+     */
     SMacierz<double, 3> os_obrotuZ(double radian)
     {
         SMacierz<double, 3> pom;
@@ -258,6 +326,11 @@ public:
         return pom;
     }
 
+    /**
+     * @brief Metoda służąca obracaniu wirników
+     * 
+     * @param radian kąt obrotu w radianach
+     */
     void obrotwir(double radian)
     {
         //w tym miejscu dla kąta 0 jest 0 radianów
@@ -295,7 +368,7 @@ public:
     }
 
     /**
-     * @brief przesuwa prostopadłościan o wektor
+     * @brief przesuwa bryłę o wektor
      * 
      * @param change wektor przesunięcia [x,y,z]
      */
@@ -305,6 +378,13 @@ public:
         translation = translation + change;
     }
 
+    /**
+     * @brief oblicza wektor ruchu, żeby potem za pomocą metody translate() przesunąć bryłę
+     * 
+     * @param poY odległość wzdłóż osi Y
+     * @param poZ odległość wzdłóż osi Z 
+     * @return Wektor3D 
+     */
     Wektor3D ruch(double poY, double poZ)
     {
         Wektor3D wek_ruchu;       //wektor ruchu, glowny wektor
@@ -322,6 +402,10 @@ public:
         return wek_ruchu;
     }
 
+    /**
+     * @brief Metoda poprawia położenie bryły po zderzeniu z przeszkodą
+     * 
+     */
     void popraw()
     {
         cout << "######" << endl;

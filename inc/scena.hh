@@ -12,6 +12,14 @@
 #include "lacze_do_gnuplota.hh"
 #include "Powierzchnia.hh"
 
+/**
+ * @brief Klasa Scena zawierająca w sobie drona, powierzchnie wody, podloże i przeszkody
+ * 
+ * @tparam rozmiar1 rozmiar dla prostopadłościanu (dron, przeszkody)
+ * @tparam rozmiar2 rozmiar dla pow wody
+ * @tparam rozmiar3 rozmiar dla podłoża
+ * @tparam rozmiar4 rozmiar dla wirnika
+ */
 template <int rozmiar1, int rozmiar2, int rozmiar3, int rozmiar4>
 class Scena : public Bryla<rozmiar1 || rozmiar2 || rozmiar3 || rozmiar4>
 {
@@ -32,6 +40,10 @@ public:
     vector<Przeszkoda<rozmiar1>> getprzeszkoda() const { return przeszkoda; }
     vector<Przeszkoda<rozmiar1>> &getprzeszkoda() { return przeszkoda; }
 
+    /**
+    * @brief Construct a new Scena object
+    * 
+    */
     Scena()
     {
         Lacze.ZmienTrybRys(PzG::TR_3D); // Tutaj ustawiany jest tryb 3D
@@ -47,11 +59,22 @@ public:
         Lacze.DodajNazwePliku("bryly/drone.dat");
     }
 
+    /**
+     * @brief rysuje wczytane pliki (części sceny)
+     * 
+     */
     void rysuj()
     {
         Lacze.Rysuj();
     }
 
+    /**
+     * @brief Porównuje zakresy, aby sprawdzić, czy dochodzi do kolizji
+     * 
+     * @param tmp zakres pierwszego obiektu
+     * @param pom zakres drugiego obiektu
+     * @return int 
+     */
     int porownajzakresy(Zakres tmp, Zakres pom)
     {
         int a = 0;
@@ -82,6 +105,14 @@ public:
         return 0;
     }
 
+    /**
+     * @brief Sprawdza czy doszło do kolizji i jeśli tak, to zwraca numer odpowiedzniego zderzenia
+     * 1 - zderzenie z podłożem
+     * 2 - zderzenie z pow. wody 
+     * 3 - zderzenie z przeszkodą
+     * 
+     * @return double 
+     */
     double czykolizja()
     {
         double czykolizja = 0;
@@ -100,6 +131,11 @@ public:
         return 0;
     }
 
+    /**
+     * @brief Mówi z jaką przeszkodą nastąpiło zderzenie poprzez cyfrę zwróconą przez czykolizja()
+     * 
+     * @param tmp 
+     */
     void co_sie_stalo(int tmp)
     {
         if (tmp == 1)
@@ -110,6 +146,10 @@ public:
             cout << " zderzenie z przeszkoda " << endl;
     }
 
+    /**
+     * @brief Nadaje nazwę nowej, stworzonej przeszkodzie
+     * 
+     */
     void nazwa_przeszkody()
     {
         char *nazwa = nullptr;
@@ -128,6 +168,10 @@ public:
         Lacze.DodajNazwePliku(nazwa);
     }
 
+    /**
+     * @brief metoda tworząca nową przeszkodę na scenie i zapisująca ją w nowym pliku
+     * 
+     */
     void dodaj_przeszkode()
     {
         // przeszkoda[0].getlp() = liczba;
@@ -136,6 +180,7 @@ public:
         cin >> x >> y >> z;
         cout << "Podaj wspolrzedne miejsca początku rysowania przeszkody >  ";
         cin >> x1 >> y1 >> z1;
+        
         x2 = x1 + x;
         y2 = y1 + y;
         z2 = z1 + z;

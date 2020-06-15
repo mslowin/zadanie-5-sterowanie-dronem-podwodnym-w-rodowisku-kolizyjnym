@@ -33,6 +33,10 @@ public:
     double getz_max() const { return z_max; }
     double &getz_max() { return z_max; }
 
+    /**
+     * @brief Construct a new Zakres object
+     * 
+     */
     Zakres()
     {
         double x_min = 0;

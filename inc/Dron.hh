@@ -17,6 +17,12 @@ using namespace std;
 // tu będzie klasa składająca się z 3 części: prostopadłościan, śruba1, śruba2
 // coś na wzór układu równań liniowych
 
+/**
+ * @brief klasa Dron składająca się z drona (prostopadłościan) i dwóch wirników
+ * 
+ * @tparam rozmiar1 rozmiar drona (ile linijek współżędnych zajmuje w pliku)
+ * @tparam rozmiar2 rozmiar wirnika (ile linijek współżędnych zajmuje w pliku)
+ */
 template <int rozmiar1, int rozmiar2>
 class Dron : public Bryla<rozmiar1>
 {
@@ -38,6 +44,10 @@ class Dron : public Bryla<rozmiar1>
     Wektor3D getlok_w2() const { return lok_w2; }
     Wektor3D &getlok_w2() { return lok_w2; }
 
+    /**
+     * @brief Construct a new Dron object
+     * 
+     */
     Dron()
     {
         Wektor3D obiekt;
@@ -64,6 +74,11 @@ class Dron : public Bryla<rozmiar1>
         wirnik2.getkat() = 0;
     }
 
+    /**
+     * @brief Sprawdza zakres drona, potrzebne przy zderzeniach
+     * 
+     * @return Zakres zakres drona
+     */
     virtual Zakres zakres()
     {
         Zakres tmp;
