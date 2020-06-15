@@ -1,6 +1,6 @@
 Zadanie 5 sterowanie dronem podwodnym w srodowisku kolizyjnym
 
-PROGRAM NIE JEST JESZCZE GOTOWY (NIE MA KOLIZI, WIRNIKI SIĘ NIE KRĘCĄ, NIE MA LICZENIA WEKTORÓW)
+Program działa, natomiast dron nie wykrywa kolizji, a wirniki się nie kręcą
 
 * Program uruchamiany za pomocą komendy 'make'
 
